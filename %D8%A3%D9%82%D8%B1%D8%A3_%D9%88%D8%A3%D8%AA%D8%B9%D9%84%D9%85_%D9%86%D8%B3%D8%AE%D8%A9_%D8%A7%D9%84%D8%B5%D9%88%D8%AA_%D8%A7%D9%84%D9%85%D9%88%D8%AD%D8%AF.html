@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أقرأ وأتعلّم — النسخة الاحترافية</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="أقرأ وأتعلّم">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#fff4d6">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D8%A3%D9%82%D8%B1%D8%A3%20%D9%88%D8%A3%D8%AA%D8%B9%D9%84%D9%91%D9%85%22%2C%22short_name%22%3A%22%D8%A3%D9%82%D8%B1%D8%A3%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23fff4d6%22%2C%22theme_color%22%3A%22%23fff4d6%22%7D">
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#fff4d6;--bg2:#d9f0ff;--ink:#2b2d42;--card:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#2a2350;--bg2:#12304a;--ink:#f4f1ff;--card:#3a3470;color-scheme:dark}}
+:root[data-theme="dark"]{--bg1:#2a2350;--bg2:#12304a;--ink:#f4f1ff;--card:#3a3470;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;font-family:'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;font-weight:600;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;font-size:20px}
+#app{max-width:880px;margin:auto;padding:12px 14px 40px}
+header{display:flex;align-items:center;gap:10px;padding:8px 0}
+h1{font-family:'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;font-weight:400;font-size:2rem;margin:0;flex:1;text-align:center}
+.bk,.st{background:var(--card);border:0;border-radius:50px;padding:8px 14px;font-size:1.2rem;box-shadow:0 3px 0 rgba(0,0,0,.15);font-family:inherit;color:var(--ink)}
+.hi{text-align:center;font-size:1.3rem;margin:4px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.tile{border:0;border-radius:26px;padding:18px 8px;font:800 1.25rem 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;color:#fff;background:hsl(var(--h) 75% 52%);box-shadow:0 6px 0 hsl(var(--h) 70% 38%);cursor:pointer;transition:transform .1s}
+.tile:active{transform:translateY(4px);box-shadow:0 2px 0 hsl(var(--h) 70% 38%)}
+.tile i{display:block;font-style:normal;font-family:'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;font-size:3rem;line-height:1.3;margin-bottom:4px}
+.big{background:var(--card);border:5px solid hsl(var(--h) 70% 60%);border-radius:30px;padding:16px;text-align:center;box-shadow:0 8px 0 hsl(var(--h) 60% 45% / .35);margin-bottom:14px}
+.ltr{font:400 7rem/1.3 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;color:hsl(var(--h) 70% 45%);cursor:pointer}
+.nm{font-size:1.5rem}.pic{font-size:6rem;line-height:1.2}
+.wd{font-size:2.2rem;cursor:pointer}.fm{display:flex;gap:10px;justify-content:center;margin-top:8px}
+.fm b{font:400 3rem 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;background:hsl(var(--h) 85% 92%);color:#222;border-radius:18px;padding:0 18px;cursor:pointer}
+.chips,.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+.chip{width:50px;height:50px;border-radius:50%;border:3px solid hsl(var(--h) 70% 55%);background:var(--card);color:var(--ink);font:400 1.7rem 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;cursor:pointer}
+.chip.on{background:hsl(var(--h) 75% 55%);color:#fff}
+.tab{border:0;border-radius:50px;padding:9px 18px;font:800 1.05rem 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;background:var(--card);color:var(--ink);box-shadow:0 3px 0 rgba(0,0,0,.15);cursor:pointer}
+.tab.on{background:#ff6b6b;color:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px}
+.cd{background:var(--card);border-radius:22px;padding:12px 4px;text-align:center;font:400 2.6rem 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;border-bottom:6px solid hsl(var(--h) 70% 55%);cursor:pointer;color:hsl(var(--h) 65% 42%)}
+.cd:active{transform:scale(.94)}
+@media (prefers-color-scheme:dark){.cd{color:hsl(var(--h) 80% 75%)}}
+.wc{grid-column:span 1;font-size:2.2rem}.wc .e{font-size:3.6rem;display:block}
+.s0{color:#e63946}.s1{color:#2a9d8f}.s2{color:#e08a00}
+.sent{background:var(--card);border-radius:22px;padding:14px 16px;margin-bottom:12px;font:600 1.7rem/2.2 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif}
+.w{cursor:pointer;border-radius:10px;padding:0 4px;display:inline-block}.w.hl{background:#ffd166;color:#222}
+.rd{border:0;background:#4cc9f0;color:#fff;border-radius:50px;padding:6px 16px;font:800 1rem 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;cursor:pointer;margin-inline-start:8px}
+.sec{font-family:'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;font-size:1.6rem;margin:10px 0 6px}
+.scene{border-radius:30px;padding:22px;text-align:center;margin-bottom:12px;color:#222}
+.scene .e{font-size:7rem;line-height:1.3}.scene .t{font:800 1.9rem/2.1 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif}
+.nav{display:flex;justify-content:space-between;gap:10px}
+.nav .tab{flex:1;font-size:1.2rem}
+svg{width:100%;max-width:520px;display:block;margin:auto;background:#bfe9ff;border-radius:24px;touch-action:manipulation}
+svg .f{cursor:pointer;stroke:#444;stroke-width:3}
+.pal{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.pal button{width:46px;height:46px;border-radius:50%;border:4px solid #fff;box-shadow:0 2px 0 rgba(0,0,0,.3);cursor:pointer}
+.q{text-align:center}.q .pic{font-size:8rem}
+.opts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.opts button{min-width:100px;font:400 3rem 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;border:0;border-radius:24px;padding:6px 18px;background:var(--card);color:var(--ink);box-shadow:0 5px 0 rgba(0,0,0,.2);cursor:pointer}
+.bad{animation:sh .3s;background:#ffb4b4!important}.good{background:#8ee6a0!important;color:#123!important}
+@keyframes sh{25%{transform:translateX(8px)}75%{transform:translateX(-8px)}}
+.ok{background:#8ee6a0!important;color:#123}.no{background:#ffb4b4!important;color:#222}.opts2{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}.mic{font:800 1.5rem 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;border:0;border-radius:50px;padding:12px 26px;background:#ef476f;color:#fff;box-shadow:0 5px 0 #a8274a;cursor:pointer}.mic.on{animation:pl 1s infinite}@keyframes pl{50%{transform:scale(1.08)}}.res{font:800 1.5rem/1.8 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;text-align:center;margin-top:12px;min-height:64px}.res small{font-size:1rem;font-weight:600}.dcard{background:var(--card);border-radius:20px;padding:14px;margin-bottom:12px}.dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.kp{text-align:center;font-size:.95rem}.kp b{display:block;font-size:2rem}.bar{height:14px;border-radius:8px;background:rgba(128,128,128,.25);overflow:hidden}.bar i{display:block;height:100%;border-radius:8px}.row{display:flex;align-items:center;gap:10px;margin:8px 0}.row>span:first-child{width:110px}.row .bar{flex:1}.wk{display:flex;align-items:flex-end;gap:8px;min-height:130px}.wk div{flex:1;text-align:center;font-size:.9rem}.wk i{display:block;border-radius:8px 8px 0 0;background:#4cc9f0;min-height:4px}.inp{font:inherit;font-size:1.6rem;text-align:center;border:3px solid #4cc9f0;border-radius:16px;padding:8px;width:80%;max-width:300px;background:var(--card);color:var(--ink);margin:8px 0}.kidbar{display:flex;gap:10px;justify-content:center;margin-bottom:8px;flex-wrap:wrap}.tag{display:inline-block;background:#ffd166;color:#222;border-radius:14px;padding:2px 12px;margin:3px}.dots{display:flex;gap:10px;justify-content:center;margin-bottom:8px;font-size:1.3rem}.dt{opacity:.4}.dt.on{opacity:1;transform:scale(1.3)}.forms{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}.fo{background:hsl(var(--h) 85% 92%);color:#222;border-radius:16px;padding:0 14px;text-align:center}.fo b{display:block;font-size:2.6rem;line-height:1.4}.fo small{font-size:1rem}.nt{margin-top:6px;font-size:1.2rem;color:#c1121f}.slots{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0}.sl{min-width:58px;height:72px;padding:0 6px;border-radius:16px;border:3px dashed #999;display:inline-flex;align-items:center;justify-content:center;font:400 2.6rem 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif}.sl.fl{border:3px solid #2a9d8f;background:#d6f5e3;color:#123}
+.lock{opacity:.55;position:relative}.lock::after{content:'🔒';position:absolute;top:4px;left:4px;font-size:1.1rem}
+.streak{display:inline-block;background:#ffd166;color:#7a4a00;border-radius:50px;padding:4px 14px;font-size:1.1rem;margin-inline-start:6px}
+.certpage{background:#fff;color:#222;border:10px double #c9a227;border-radius:14px;padding:40px 20px;text-align:center;font-family:'Scheherazade New','Noto Naskh Arabic',Tahoma,serif}
+.certpage h1{font-size:2.4rem;margin:0 0 10px}.certpage h2{font-size:3rem;color:#c9a227;margin:10px 0}
+@media print{body *{visibility:hidden}.no-print{display:none}#certp,#certp *{visibility:visible}#certp{position:absolute;top:0;left:0;width:100%}}
+.ic{position:relative;display:flex;align-items:center;justify-content:center;width:86px;height:86px;margin:0 auto 6px;border-radius:28px;background:#fff;box-shadow:0 4px 0 #0003;color:hsl(var(--h) 70% 42%);font-family:'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;font-style:normal}
+.ic b{font-weight:400;font-size:3.6rem;line-height:1;margin-top:-6px}.ic em{position:absolute;bottom:4px;right:10px;font-size:1.5rem;line-height:1;font-style:normal;opacity:.75}.ic u{position:absolute;text-decoration:none;top:4px;left:10px;font-size:1.4rem;line-height:1;opacity:.6}
+.ict b{color:transparent;-webkit-text-stroke:2.5px hsl(var(--h) 70% 42%)}.ict u{top:auto;bottom:-6px;left:-6px;font-size:2rem;opacity:1;transform:rotate(-10deg)}
+.pgb{display:flex;align-items:center;gap:10px;margin:2px 4px 10px}.pgn{font-size:1.15rem;min-width:78px;text-align:center;background:var(--card);border-radius:50px;padding:2px 12px;box-shadow:0 3px 0 rgba(0,0,0,.12)}.pgb .bar{flex:1}
+.pgr{touch-action:pan-y;-webkit-user-select:none;user-select:none;padding-bottom:6px}
+.lcard{background:var(--card);border-radius:32px;padding:18px 12px 16px;text-align:center;box-shadow:0 8px 0 hsl(var(--h) 60% 45% / .3);border:4px solid hsl(var(--h) 70% 72%)}
+.lrow,.trtop{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.arw{width:54px;height:54px;flex:none;border-radius:50%;border:0;background:hsl(var(--h) 80% 92%);color:hsl(var(--h) 60% 32%);font:800 1.7rem/1 Tahoma,sans-serif;box-shadow:0 4px 0 hsl(var(--h) 55% 70%);cursor:pointer}
+.arw:disabled{opacity:.3;box-shadow:none;cursor:default}.arw:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 hsl(var(--h) 55% 70%)}
+.lbadge{position:relative;width:min(48vw,200px);aspect-ratio:1;border:0;cursor:pointer;color:#fff;background:linear-gradient(150deg,hsl(var(--h) 85% 64%),hsl(var(--h) 75% 44%));border-radius:44% 56% 52% 48%/52% 46% 54% 48%;box-shadow:0 9px 0 hsl(var(--h) 70% 32%),inset 0 -10px 18px #0002,inset 0 8px 14px #fff4;display:flex;align-items:center;justify-content:center}
+.lbadge span{font-family:'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;font-weight:400;font-size:min(30vw,8.5rem);line-height:1;text-shadow:0 5px 0 #0003;padding-bottom:.06em}.lbadge small{position:absolute;bottom:10px;left:14px;font-size:1.3rem}
+.lname{font-size:1.9rem;margin-top:16px;cursor:pointer}
+.lword{display:inline-flex;align-items:center;gap:12px;background:hsl(var(--h) 90% 94%);color:#222;border-radius:22px;padding:6px 18px;margin:8px 0;cursor:pointer}.lpic{font-size:3.2rem;line-height:1.2}.lwd{font-size:2rem}
+.swh{text-align:center;font-size:1rem;opacity:.75;margin:12px 0 0}
+.enN{animation:enN .28s ease-out}.enP{animation:enP .28s ease-out}@keyframes enN{from{opacity:0;transform:translateX(-70px)}}@keyframes enP{from{opacity:0;transform:translateX(70px)}}
+.nud{animation:nd .3s}@keyframes nd{25%{transform:translateX(10px)}75%{transform:translateX(-10px)}}
+.trn{flex:1;display:flex;align-items:center;justify-content:center;gap:12px;background:var(--card);border-radius:24px;padding:2px 14px;cursor:pointer;border:3px solid hsl(var(--h) 70% 68%)}.trn b{font:400 3.4rem/1.3 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;color:hsl(var(--h) 65% 45%)}.trn span{font-size:1.4rem}
+.tcwrap{position:relative;width:min(100%,320px);aspect-ratio:1;margin:12px auto 6px;background:#fff;border-radius:26px;border:5px solid hsl(var(--h) 70% 68%);overflow:hidden}
+.tcwrap canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.cvb{display:flex;align-items:center;gap:10px;max-width:320px;margin:8px auto}.cvb span{min-width:60px;font-size:1.1rem;text-align:center}.cvb .bar{flex:1}
+.evl{background:var(--card);border-radius:22px;padding:12px 14px;margin-top:12px;text-align:center;animation:enN .3s}.evs{font-size:2.4rem;letter-spacing:4px}.evm{font:800 1.5rem/1.7 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif}.evl .row b{min-width:52px;font-size:1rem}
+.sy{border-radius:12px;transition:transform .2s,background .2s}
+.wc.sp .sy{display:inline-block;margin:0 3px;padding:0 5px;background:#00000010}
+.wc.sp .syh{transform:scale(1.25);background:#ffd166;color:#222}
+.wc.mg{animation:mg .5s}.wc.mg .sy{background:#8ee6a0;color:#123}@keyframes mg{50%{transform:scale(1.08)}}
+.wc .sw{display:none}.wc.sp .sw{display:inline}.wc.sp .dw{display:none}.wc.mg .dw{background:#8ee6a0;color:#123;border-radius:12px;padding:0 6px}
+.gw{font:400 3.6rem/1.5 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif;margin:6px 0}
+.gs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}.gsl{min-width:64px;height:60px;padding:0 10px;border-radius:16px;border:3px dashed #999;display:inline-flex;align-items:center;justify-content:center;font:400 1.8rem 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif}.gsl.fl{border:3px solid #2a9d8f;background:#d6f5e3;color:#123}
+.mem{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:420px;margin:10px auto}.mc{aspect-ratio:1;border:0;border-radius:20px;background:#fff;color:#222;box-shadow:0 5px 0 rgba(0,0,0,.2);font-size:2.2rem;cursor:pointer}.mc.on{background:#ffd166}.mc.dn{background:#8ee6a0}.ml{font:400 3.6rem 'Scheherazade New','Noto Naskh Arabic',Tahoma,serif}.mp{font-size:3.4rem}
+.mut{opacity:.35}.lmc{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.lmc .wc{font-size:1.9rem}
+.tile{position:relative;overflow:hidden;background:linear-gradient(155deg,hsl(var(--h) 85% 62%),hsl(var(--h) 75% 48%));text-shadow:0 2px 0 rgba(0,0,0,.18)}
+.tile::after{content:'';position:absolute;inset:0 0 55% 0;background:linear-gradient(rgba(255,255,255,.35),transparent);border-radius:26px 26px 50% 50%;pointer-events:none}
+.tile:hover{transform:translateY(-3px) rotate(-1deg)}
+.tile i{animation:bob 3s ease-in-out infinite}.tile:nth-child(2n) i{animation-delay:.6s}
+@keyframes bob{50%{transform:translateY(-5px)}}
+.tile.paid{filter:saturate(.55);opacity:.92}.tile.paid small{display:inline-block;margin-top:4px;background:rgba(0,0,0,.25);padding:2px 10px;border-radius:20px;font-size:.8rem}
+.buy{display:block;margin:22px auto 6px;border:0;border-radius:50px;padding:14px 30px;font:800 1.3rem 'Scheherazade New',serif;color:#4a2b00;background:linear-gradient(135deg,#ffd76a,#ffb020);box-shadow:0 6px 0 #c77d00,0 12px 24px rgba(255,160,0,.35);cursor:pointer;animation:pulse 2.2s infinite}
+@keyframes pulse{50%{transform:scale(1.05)}}
+.prem{color:#c77d00}
+.devid{direction:ltr;font:700 1.6rem monospace;letter-spacing:3px;background:#fff6dc;color:#5a3d00;border:2px dashed #ffb020;border-radius:16px;padding:8px;margin:8px auto;max-width:260px;cursor:pointer}
+</style></head><body><div id="app"></div>
+<script>window.AUDIO_DATA={};</script>
+<script>
+const A=document.getElementById('app');let st=0;
+let DB={kids:[],cur:null},OK=1,PG=null;
+try{const x=localStorage.getItem('qrdb');if(x)DB=JSON.parse(x);localStorage.setItem('qrt','1')}catch(e){OK=0}
+const dbSave=()=>{try{localStorage.setItem('qrdb',JSON.stringify(DB))}catch(e){}};
+const kid=()=>DB.kids.find(k=>k.id==DB.cur);
+const today=()=>new Date().toISOString().slice(0,10);
+function newKid(n){const k={id:Date.now(),name:n,stars:0,vis:{},days:{},rd:{},it:{},gm:[0,0],stories:{}};DB.kids.push(k);DB.cur=k.id;dbSave()}
+function act(t){const k=kid();if(!k)return;k.vis[t]=(k.vis[t]||0)+1;k.days[today()]=(k.days[today()]||0)+1;dbSave()}
+function gmLog(ok){const k=kid();if(!k)return;k.gm[1]++;if(ok)k.gm[0]++;k.lv=k.lv||{};const a=k.lv[LV]=k.lv[LV]||[0,0];a[1]++;if(ok)a[0]++;dbSave()}
+const LT=[['أ','أَلِف','أَسَدٌ','🦁'],['ب','بَاء','بَطَّةٌ','🦆'],['ت','تَاء','تُفَّاحَةٌ','🍎'],['ث','ثَاء','ثَعْلَبٌ','🦊'],['ج','جِيم','جَمَلٌ','🐪'],['ح','حَاء','حِصَانٌ','🐴'],['خ','خَاء','خَرُوفٌ','🐑'],['د','دَال','دُبٌّ','🐻'],['ذ','ذَال','ذُرَةٌ','🌽'],['ر','رَاء','رَجُلٌ','👨'],['ز','زَاي','زَرَافَةٌ','🦒'],['س','سِين','سَمَكَةٌ','🐟'],['ش','شِين','شَمْسٌ','☀️'],['ص','صَاد','صَارُوخٌ','🚀'],['ض','ضَاد','ضِفْدَعٌ','🐸'],['ط','طَاء','طَائِرَةٌ','✈️'],['ظ','ظَاء','ظَرْفٌ','✉️'],['ع','عَيْن','عِنَبٌ','🍇'],['غ','غَيْن','غَيْمَةٌ','☁️'],['ف','فَاء','فِيلٌ','🐘'],['ق','قَاف','قَمَرٌ','🌙'],['ك','كَاف','كِتَابٌ','📖'],['ل','لَام','لَيْمُونٌ','🍋'],['م','مِيم','مَوْزٌ','🍌'],['ن','نُون','نَجْمَةٌ','⭐'],['ه','هَاء','هَدِيَّةٌ','🎁'],['و','وَاو','وَرْدَةٌ','🌹'],['ي','يَاء','يَدٌ','✋']];
+const IC_L='<span class="ic"><b>أ</b><em>ب</em><u>ت</u></span>',IC_T='<span class="ic ict"><b>ب</b><u>✏️</u></span>';
+const MENU=[['vL',IC_L,'الحُرُوف',0],['vT',IC_T,'تَتَبُّعُ الحَرْفِ',0],['openS','🧩','المَقَاطِع',5],['vW','🖼️','الكَلِمَات',10],['vM','🎵','حُرُوفُ المَدِّ',10],['vLn','🔗','حُرُوفُ اللِّين',10],['vWM','🔤','الكَلِمَاتُ بِالمَدِّ',10],['vWS','🔠','الكَلِمَاتُ المُشَدَّدَة',15],['vLm','🌗','اللَّامُ الشَّمْسِيَّةُ وَالقَمَرِيَّةُ',15],['vSe','📝','الجُمَل',15],['vSt','📚','القِصَص',15],['vC','🎨','التَّلْوِين',0],['vG','🎮','الأَلْعَاب',0]];
+const UNLOCK_CODE='اقرأ2026';
+const REVIEW=false; // وضع المراجعة: true = كل الأقسام مفتوحة، false = القفل الأصلي (نجوم + رمز الشراء)
+
+const LIC_SALT='QR-2026-ammar-7f3k9';
+function _h(s){let h1=0x811c9dc5,h2=0x1234567;for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);h1=Math.imul(h1^c,16777619)>>>0;h2=Math.imul(h2^c,2246822519)>>>0;h2=(h2<<13|h2>>>19)>>>0}return (h1^h2).toString(36).toUpperCase()+h2.toString(36).toUpperCase()}
+function devId(){try{let d=localStorage.getItem('qr_dev');if(!d){d=Array.from(crypto.getRandomValues(new Uint8Array(4))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();localStorage.setItem('qr_dev',d)}return d}catch(e){return 'TEMP0000'}}
+function codeFor(d){const x=_h(LIC_SALT+'|'+d.toUpperCase()).replace(/[^A-Z0-9]/g,'').padEnd(12,'7').slice(0,12);return x.slice(0,4)+'-'+x.slice(4,8)+'-'+x.slice(8,12)}
+function isUnlocked(){if(REVIEW)return true;try{return localStorage.getItem('qr_unlocked')===codeFor(devId())}catch(e){return false}}
+const FREE=4;
+function streak(k){let n=0,d=new Date();for(;;){const ds=d.toISOString().slice(0,10);if(!(k.days[ds]>0))break;n++;d.setDate(d.getDate()-1)}return n}
+function unlockScreen(){A.innerHTML=hd('فَتْحُ المُحْتَوَى الكَامِل',0)+`<div class="big q" style="--h:260"><div class="pic">🔓</div><div class="nm">هَذَا المُحْتَوَى ضِمْنَ النُّسْخَةِ الكَامِلَةِ</div><div class="nt">١. أَرْسِلْ رَقْمَ جِهَازِكَ إِلَى البَائِعِ</div><div class="devid" onclick="navigator.clipboard&&navigator.clipboard.writeText('${devId()}')">${devId()} 📋</div><div class="nt">٢. أَدْخِلِ الرَّمْزَ الَّذِي يَصِلُكَ</div><input id="uc" class="inp" placeholder="الرمز"><div class="opts2"><button class="mic" onclick="tryUnlock()">تَفْعِيل</button><button class="tab" onclick="home()">🏠</button></div><div class="res" id="ur"></div></div>`}
+function tryUnlock(){const v=document.getElementById('uc').value.trim().toUpperCase().replace(/\s/g,'');if(v==codeFor(devId())){try{localStorage.setItem('qr_unlocked',v)}catch(e){}home()}else document.getElementById('ur').textContent='الرَّمْزُ غَيْرُ صَحِيحٍ'}
+const SK=['ل','ن','ر','م','ب'],F='َ',D='ُ',K='ِ';
+const SUKW={'أ':'أَرْض','ب':'بَحْر','ت':'تَمْر','ث':'ثَعْلَب','ج':'جَرْو','ح':'حَقْل','خ':'خُبْز','د':'دَرْس','ذ':'ذِكْر','ر':'رَمْل','ز':'زَهْرَة','س':'سَطْح','ش':'شَمْس','ص':'صَبْر','ض':'ضِفْدَع','ط':'طِفْل','ظ':'ظَهْر','ع':'عِلْم','غ':'غُرْفَة','ف':'فَجْر','ق':'قَلْب','ك':'كَلْب','ل':'لَحْم','م':'مِلْح','ن':'نَجْم','ه':'هَمْس','و':'وَرْد','ي':'يَقْطِين'};
+const hm=(c,v)=>c=='أ'&&v==K?'إ'+K:c+v;
+const TVAR='مُتَنَوِّعَة',TSUK='سُكُون';
+const M={'فَتْحَة':c=>hm(c,F),'ضَمَّة':c=>hm(c,D),'كَسْرَة':c=>hm(c,K),'سُكُون':c=>{const w=SUKW[c];return w.slice(0,w.indexOf('\u0652')+1)},
+'مَدُّ الأَلِف':c=>c+F+'ا','مَدُّ الوَاو':c=>c+D+'و','مَدُّ اليَاء':c=>c+K+'ي','مَدُّ مُتَنَوِّع':(c,i)=>[c+F+'ا',c+D+'و',c+K+'ي'][i%3]};
+const SM=['فَتْحَة','ضَمَّة','كَسْرَة','سُكُون','مُتَنَوِّعَة'],LM=['مَدُّ الأَلِف','مَدُّ الوَاو','مَدُّ اليَاء','مَدُّ مُتَنَوِّع'];
+const WG_OLD={'مَفْتُوحَة':[['جَ-مَل','🐪'],['قَ-مَر','🌙'],['وَ-لَد','👦'],['عَ-لَم','🏳️']],
+'مَضْمُومَة':[['كُ-رَة','⚽'],['ذُ-رَة','🌽'],['دُ-بّ','🐻'],['حُو-ت','🐋']],
+'مَكْسُورَة':[['عِ-نَب','🍇'],['قِ-طَّة','🐱'],['فِي-ل','🐘'],['كِ-تَاب','📖']],
+'ثَلَاثَة مَقَاطِع':[['شَ-جَ-رَة','🌳'],['سَ-مَ-كَة','🐟'],['بَ-قَ-رَة','🐄'],['وَ-رَ-دَة','🌹'],['حَ-قِي-بَة','🎒'],['تُ-فَّا-حَة','🍎']],
+'سَاكِنَة':[['شَمْ-س','☀️'],['نَجْ-مَة','⭐'],['زَهْ-رَة','🌷'],['كُرْ-سِي','🪑'],['عُصْ-فُور','🐦'],['مَدْ-رَ-سَة','🏫']]};
+const WG={'الفَتْحَة':[['ذَ-هَ-بَ','🚶'],['جَ-لَ-سَ','🪑'],['كَ-تَ-بَ','✍️'],['فَ-تَ-حَ','🚪'],['رَ-سَ-مَ','🎨'],['قَ-فَ-زَ','🐸'],['سَ-بَ-حَ','🏊'],['حَ-مَ-لَ','🎒']],
+'الضَّمَّة':[['كُ-رَ-ةٌ','⚽'],['ذُ-رَ-ةٌ','🌽'],['جُبْ-نَ-ةٌ','🧀'],['دُمْ-يَ-ةٌ','🧸'],['قُفْ-لٌ','🔒'],['عُلْ-بَ-ةٌ','🥫']],
+'الكَسْرَة':[['شَ-رِ-بَ','🥤'],['لَ-عِ-بَ','⚽'],['فَ-رِ-حَ','😄'],['سَ-مِ-عَ','👂'],['عَ-لِ-مَ','💡'],['حَ-زِ-نَ','😢']],
+'مُتَنَوِّعَة':[['وَ-صَ-لَ','🚌'],['يَ-قِ-فُ','🧍'],['يَ-جِ-دُ','🔍'],['يَ-هَ-بُ','🎁'],['نَ-زَ-لَ','⬇️'],['سَ-قَ-طَ','🍂']],
+'السُّكُون':[['يَكْ-تُ-بُ','✍️'],['يَذْ-هَ-بُ','🚶'],['يَلْ-عَ-بُ','⚽'],['يَرْ-سُ-مُ','🎨'],['يَشْ-رَ-بُ','🥤'],['يَسْ-بَ-حُ','🏊']]};
+const SS=[['جُمَلٌ قَصِيرَةٌ',['الْوَلَدُ يَلْعَبُ.','أُحِبُّ أُمِّي.','الشَّمْسُ سَاطِعَةٌ.','الْقِطَّةُ تَشْرَبُ الْحَلِيبَ.','هَذَا كِتَابٌ جَمِيلٌ.']],
+['جُمَلٌ طَوِيلَةٌ',['ذَهَبَ الْوَلَدُ إِلَى الْمَدْرَسَةِ صَبَاحًا وَهُوَ يَحْمِلُ حَقِيبَتَهُ.','فِي الْحَدِيقَةِ وُرُودٌ جَمِيلَةٌ وَطُيُورٌ تُغَرِّدُ عَلَى الْأَشْجَارِ.','تُحِبُّ سَارَةُ أَنْ تَقْرَأَ قِصَّةً جَمِيلَةً قَبْلَ النَّوْمِ.']]];
+const ST=[
+['القِطَّةُ الجَائِعَةُ',[['🐱','#fff0c2','الْقِطَّةُ جَائِعَةٌ.'],['🥛','#e8ecff','تَرَى الْقِطَّةُ الْحَلِيبَ.'],['😴','#eadcff','تَشْرَبُ الْقِطَّةُ وَتَنَامُ.']],0],
+['الأَرْنَبُ وَالجَزَرَةُ',[['🐰','#ffe0e9','يَرَى الْأَرْنَبُ جَزَرَةً.'],['🥕','#ffeccc','يَأْكُلُ الْأَرْنَبُ الْجَزَرَةَ.'],['🏡','#dff7d9','الْأَرْنَبُ سَعِيدٌ.']],0],
+['سَامِي وَالكُرَةُ',[['⚽','#dff7d9','مَعَ سَامِي كُرَةٌ.'],['🏃','#cdeeff','يَرْكُضُ سَامِي وَيَلْعَبُ.'],['😄','#fff0c2','سَامِي فَرِحٌ.']],0],
+['الفَرَاشَةُ وَالزَّهْرَةُ',[['🌷','#ffe0e9','فِي الْحَدِيقَةِ زَهْرَةٌ جَمِيلَةٌ.'],['🦋','#eadcff','جَاءَتْ فَرَاشَةٌ صَغِيرَةٌ.'],['🌸','#fff0c2','وَقَفَتِ الْفَرَاشَةُ عَلَى الزَّهْرَةِ.'],['😊','#dff7d9','فَرِحَتِ الزَّهْرَةُ بِالْفَرَاشَةِ.']],1],
+['السَّمَكَةُ الصَّغِيرَةُ',[['🐟','#cdeeff','تَسْبَحُ السَّمَكَةُ فِي الْبَحْرِ.'],['🐢','#d6f5e3','رَأَتِ السَّمَكَةُ سُلَحْفَاةً.'],['👋','#e8ecff','قَالَتِ السَّمَكَةُ: مَرْحَبًا.'],['🌅','#ffe2c4','لَعِبَتِ السَّمَكَةُ وَالسُّلَحْفَاةُ مَعًا.']],1],
+['العُصْفُورُ الصَّغِيرُ',[['🐦','#e0f0ff','عَلَى الشَّجَرَةِ عُصْفُورٌ صَغِيرٌ.'],['🐛','#dff7d9','رَأَى الْعُصْفُورُ دُودَةً.'],['🌳','#d6f5e3','نَزَلَ الْعُصْفُورُ مِنَ الشَّجَرَةِ.'],['🌤️','#fff0c2','أَكَلَ الْعُصْفُورُ الدُّودَةَ وَطَارَ.']],1],
+['المَطَرُ وَالأَزْهَارُ',[['☁️','#e0f0ff','ظَهَرَتْ غَيْمَةٌ كَبِيرَةٌ فِي السَّمَاءِ.'],['🌧️','#cdeeff','نَزَلَ الْمَطَرُ عَلَى الْحَدِيقَةِ.'],['🌱','#d6f5e3','شَرِبَتِ الْأَزْهَارُ الْمَاءَ.'],['🌈','#eadcff','ثُمَّ ظَهَرَ قَوْسُ قُزَحَ.'],['🌻','#fff0c2','كَبُرَتِ الْأَزْهَارُ وَصَارَتْ جَمِيلَةً.']],2],
+['يَوْمٌ فِي المَدْرَسَةِ',[['🏫','#cdeeff','ذَهَبَتْ سَارَةُ إِلَى الْمَدْرَسَةِ صَبَاحًا.'],['👩‍🏫','#ffe0e9','سَلَّمَتْ سَارَةُ عَلَى مُعَلِّمَتِهَا.'],['📖','#fff0c2','قَرَأَتْ سَارَةُ قِصَّةً جَمِيلَةً.'],['✏️','#dff7d9','كَتَبَتْ سَارَةُ وَاجِبَهَا فِي الْكُرَّاسَةِ.'],['🏡','#ffeccc','عَادَتْ سَارَةُ إِلَى الْبَيْتِ سَعِيدَةً.']],2],
+['سَامِي وَالقِطَّةُ',[['😢','#e8ecff','وَجَدَ سَامِي قِطَّةً صَغِيرَةً عَلَى الطَّرِيقِ.'],['🥺','#fff0c2','كَانَتِ الْقِطَّةُ خَائِفَةً وَجَائِعَةً.'],['🥛','#dff7d9','أَعْطَاهَا سَامِي حَلِيبًا دَافِئًا.'],['🏠','#ffeccc','أَخَذَهَا سَامِي إِلَى الْبَيْتِ.'],['😻','#ffe0e9','صَارَتِ الْقِطَّةُ صَدِيقَةَ سَامِي.']],2],
+['رِحْلَةٌ إِلَى الحَدِيقَةِ',[['🚗','#cdeeff','فِي يَوْمِ الْجُمُعَةِ ذَهَبَتْ عَائِلَةُ سَارَةَ إِلَى الْحَدِيقَةِ.'],['🧺','#ffeccc','حَمَلَتِ الْأُمُّ سَلَّةً فِيهَا خُبْزٌ وَتُفَّاحٌ.'],['⚽','#dff7d9','لَعِبَ الْأَوْلَادُ بِالْكُرَةِ تَحْتَ الشَّجَرَةِ.'],['🍽️','#fff0c2','قَالَ الْأَبُ: حَانَ وَقْتُ الطَّعَامِ.'],['🌇','#ffe2c4','عَادَ الْجَمِيعُ إِلَى الْبَيْتِ وَهُمْ مَسْرُورُونَ.']],3],
+['أَحْمَدُ الصَّادِقُ',[['🖊️','#fff0c2','وَجَدَ أَحْمَدُ قَلَمًا جَمِيلًا فِي سَاحَةِ الْمَدْرَسَةِ.'],['🤔','#e8ecff','فَكَّرَ أَحْمَدُ: هَذَا الْقَلَمُ لَيْسَ لِي.'],['👩‍🏫','#ffe0e9','ذَهَبَ أَحْمَدُ إِلَى الْمُعَلِّمَةِ وَأَعْطَاهَا الْقَلَمَ.'],['👧','#cdeeff','جَاءَتْ طِفْلَةٌ تَبْحَثُ عَنْ قَلَمِهَا فَأَخَذَتْهُ فَرِحَةً.'],['🌟','#dff7d9','قَالَتِ الْمُعَلِّمَةُ: أَحْسَنْتَ يَا أَحْمَدُ، أَنْتَ صَادِقٌ.']],3],
+['الأَسَدُ وَالفَأْرُ',[['🦁','#ffeccc','نَامَ الْأَسَدُ تَحْتَ شَجَرَةٍ كَبِيرَةٍ.'],['🐭','#e8ecff','رَكَضَ فَأْرٌ صَغِيرٌ فَوْقَ الْأَسَدِ.'],['😠','#ffd6d6','اِسْتَيْقَظَ الْأَسَدُ غَاضِبًا وَأَمْسَكَ بِالْفَأْرِ.'],['🥺','#fff0c2','قَالَ الْفَأْرُ: سَامِحْنِي يَا أَسَدُ، وَسَأُسَاعِدُكَ يَوْمًا.'],['😊','#dff7d9','ضَحِكَ الْأَسَدُ وَتَرَكَ الْفَأْرَ يَذْهَبُ.'],['🕸️','#eadcff','وَفِي يَوْمٍ وَقَعَ الْأَسَدُ فِي شَبَكَةٍ، فَقَطَعَهَا الْفَأْرُ وَأَنْقَذَهُ.']],3]];
+
+const AUDIO_MAP={};
+let _audioNow=null,_audioToken=0;
+const _audioClean=t=>String(t??'').replace(/[\u200f\u200e]/g,'').replace(/\s+/g,' ').trim();
+function _tts(text,onb){try{const ss=window.speechSynthesis;if(!ss){console.warn('هذا المتصفح لا يدعم النطق الصوتي.');return}const u=new SpeechSynthesisUtterance(text.replace(/\u0640/g,''));const choose=()=>{const vs=ss.getVoices()||[];return vs.find(x=>/^ar([-_]|$)/i.test(x.lang))||vs.find(x=>/arabic|العربية/i.test(x.name+' '+x.lang))||null};let v=choose();if(v)u.voice=v;u.lang=v?v.lang:'ar-SA';u.rate=.78;u.pitch=1;if(typeof onb==='function'){const w=text.split(/\s+/).filter(Boolean),tk=_audioToken;let i=0;const tm=setInterval(()=>{if(tk!==_audioToken||i>=w.length){clearInterval(tm);return}onb(text.indexOf(w[i++]))},Math.max(350,Math.min(800,1500/Math.max(w.length,1))));u.onend=()=>clearInterval(tm);u.onerror=()=>clearInterval(tm)}if(!v&&ss.addEventListener){let tried=false;const retry=()=>{if(tried)return;const nv=choose();if(nv){tried=true;ss.removeEventListener('voiceschanged',retry);u.voice=nv;u.lang=nv.lang;ss.speak(u)}};ss.addEventListener('voiceschanged',retry,{once:true});setTimeout(()=>{if(!tried){tried=true;try{ss.removeEventListener('voiceschanged',retry)}catch(e){}ss.speak(u)}},450)}else ss.speak(u)}catch(e){console.warn('تعذر تشغيل النطق الصوتي:',e)}}
+function _audioStop(){try{window.speechSynthesis&&speechSynthesis.cancel()}catch(e){}_audioToken++;if(_audioNow){try{_audioNow.pause();_audioNow.currentTime=0}catch(e){}_audioNow=null}}
+function _audioPath(t){const k=_audioClean(t);if(AUDIO_MAP[k])return AUDIO_MAP[k];const p=k.replace(/[.!؟?،,:؛]/g,'').trim();return AUDIO_MAP[p]||null}
+function _audioUrl(path){return (window.AUDIO_DATA&&AUDIO_DATA[path])||new URL(path,document.baseURI).href}
+// جميع النطق يُولَّد من النص الظاهر عبر محرك الكلام العربي المتاح في الجهاز؛ لا تُستخدم المقاطع الصوتية القديمة.
+function speak(t,onb){_audioStop();const text=_audioClean(t);if(!text)return;_tts(text,onb)}
+const sayP=(t,ms=6000)=>new Promise(resolve=>{speak(t);setTimeout(resolve,ms)});
+const hd=(t,b=1)=>(PG=null,SYT++,b&&act(t),`<header>${b?'<button class="bk" onclick="home()">🏠</button>':''}<h1>${t}</h1><span class="st">⭐ <b id="sc">${st}</b></span></header>`);
+function add(n){const k=kid();if(k){k.stars+=n;st=k.stars;dbSave()}else st+=n;const e=document.getElementById('sc');if(e)e.textContent=st}
+const sh=a=>[...a].sort(()=>Math.random()-.5),rn=a=>a[Math.floor(Math.random()*a.length)];
+function home(){const k=kid(),sc=streak(k||{days:{}});A.innerHTML=hd('أَقْرَأُ وَأَتَعَلَّمُ',0)+kb()+`<p class="hi">اِخْتَرْ مُغَامَرَتَكَ!${sc>1?`<span class="streak">🔥 ${sc==2?'يَوْمَانِ':sc<11?sc+' أَيَّامٍ':sc+' يَوْمًا'}</span>`:''}</p>`+'<div class="grid">'+MENU.map((m,i)=>{const kd=kid(),paid=i>=FREE&&!isUnlocked(),ok=!paid&&(REVIEW||!kd||kd.stars>=m[3]);return `<button class="tile${ok?'':' lock'}${paid?' paid':''}" style="--h:${i*45+5}" onclick="${paid?'unlockScreen()':ok?m[0]+'()':`lockMsg(${m[3]})`}"><i>${m[1]}</i>${m[2]}${paid?'<br><small>🔒 النُّسْخَةُ الكَامِلَةُ</small>':ok?'':`<br><small>${m[3]} ⭐</small>`}</button>`}).join('')+'</div>'+(isUnlocked()?'<p class="hi prem">👑 النُّسْخَةُ الكَامِلَةُ مُفَعَّلَةٌ</p>':'<button class="buy" onclick="unlockScreen()">🔓 اِفْتَحْ جَمِيعَ الأَقْسَامِ</button>')}
+function toast(m){let e=document.getElementById('toast');if(!e){e=document.createElement('div');e.id='toast';e.style.cssText='position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#2b2d42;color:#fff;padding:12px 20px;border-radius:16px;font-weight:700;font-size:1.1rem;z-index:99;max-width:90%;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.3)';document.body.appendChild(e)}e.textContent=m;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(()=>{e.style.display='none'},3500)}
+function lockMsg(n){toast(`يُفْتَحُ هَذَا القِسْمُ بَعْدَ جَمْعِ ${n} ${n<11?'نُجُومٍ':'نَجْمَةً'} ⭐`)}
+const F4=c=>[['أَوَّلُ الكَلِمَة',c+'ـ'],['وَسَطُ الكَلِمَة','ـ'+c+'ـ'],['آخِرُ الكَلِمَة (مُنْفَصِلَة)',c],['آخِرُ الكَلِمَة (مُتَّصِلَة)','ـ'+c]];
+const SHP={
+'ط':[['فِي كُلِّ مَوَاضِعِ الكَلِمَةِ','ط']],'ظ':[['فِي كُلِّ مَوَاضِعِ الكَلِمَةِ','ظ']],'ع':F4('ع'),'غ':F4('غ'),
+'د':[['فِي كُلِّ مَوَاضِعِ الكَلِمَةِ','د']],'و':[['فِي كُلِّ مَوَاضِعِ الكَلِمَةِ','و']],'ر':[['فِي كُلِّ مَوَاضِعِ الكَلِمَةِ','ر']],'ز':[['فِي كُلِّ مَوَاضِعِ الكَلِمَةِ','ز']],'ذ':[['فِي كُلِّ مَوَاضِعِ الكَلِمَةِ','ذ']],
+'ه':[['أَوَّلُ الكَلِمَة','هـ'],['وَسَطُ الكَلِمَة','ـهـ'],['آخِرُ الكَلِمَة (مُنْفَصِلَة)','ه'],['آخِرُ الكَلِمَة (مُتَّصِلَة)','ـه']],
+'ت':[['أَوَّلُ الكَلِمَة وَوَسَطُهَا','تـ'],['آخِرُ الكَلِمَة','ت'],['آخِرُ الكَلِمَة (تَاء مَرْبُوطَة)','ة'],['آخِرُ الكَلِمَة (تَاء مَرْبُوطَة مُتَّصِلَة)','ـة']]
+};
+const ar=n=>String(n),SWD=1;
+const pgBar=i=>`<div class="pgb"><span class="pgn">${ar(i+1)} / ${ar(LT.length)}</span><div class="bar"><i style="width:${(i+1)/LT.length*100}%;background:hsl(${i*37} 70% 55%)"></i></div></div>`;
+const arws=(fn,i)=>[`<button class="arw" ${i<=0?'disabled':''} onclick="${fn}(${i-1},-1)" aria-label="الحرف السابق">→</button>`,`<button class="arw" ${i>=LT.length-1?'disabled':''} onclick="${fn}(${i+1},1)" aria-label="الحرف التالي">←</button>`];
+function swipe(el,cb,skip){if(!el)return;let id=null,x0=0,y0=0,dx=0,mv=0;
+const rs=()=>{el.style.transition='transform .2s';el.style.transform='';id=null};
+el.addEventListener('pointerdown',e=>{if(skip&&skip(e))return;id=e.pointerId;x0=e.clientX;y0=e.clientY;dx=0;mv=0;el.style.transition='none'});
+el.addEventListener('pointermove',e=>{if(e.pointerId!==id)return;dx=e.clientX-x0;const dy=e.clientY-y0;if(Math.abs(dx)>10&&Math.abs(dx)>Math.abs(dy)){mv=1;el.style.transform=`translateX(${dx*.5}px)`}});
+el.addEventListener('pointerup',e=>{if(e.pointerId!==id)return;const ok=mv&&Math.abs(dx)>60;rs();if(ok){el._m=1;cb(dx>0?1:-1)}});
+el.addEventListener('pointercancel',rs);
+el.addEventListener('click',e=>{if(el._m){e.stopPropagation();e.preventDefault();el._m=0}},true)}
+function pager(fn,i,skip){PG={go:d=>{const t=i+d;if(t<0||t>=LT.length){const e=document.getElementById('sw');if(e){e.classList.remove('nud');void e.offsetWidth;e.classList.add('nud')}return}window[fn](t,d)}};swipe(document.getElementById('sw'),d=>PG&&PG.go(d*SWD),skip)}
+addEventListener('keydown',e=>{if(!PG)return;if(e.key=='ArrowLeft')PG.go(1);else if(e.key=='ArrowRight')PG.go(-1)});
+function vL(i=0,d=0){const l=LT[i],h=i*37,nc=NC.includes(l[0]),[ap,an]=arws('vL',i);
+const shapes=SHP[l[0]]||(nc?[['أَوَّلُ الكَلِمَة',l[0]],['وَسَطُ الكَلِمَة وَآخِرُهَا','ـ'+l[0]]]:[['أَوَّلُ الكَلِمَة وَوَسَطُهَا',l[0]+'ـ'],['آخِرُ الكَلِمَة',l[0]]]);
+A.innerHTML=hd('الحُرُوف')+pgBar(i)+`<div id="sw" class="pgr" style="--h:${h}"><div class="lcard ${d>0?'enN':d<0?'enP':''}"><div class="lrow">${ap}<button class="lbadge" onclick="speak('${l[1]}')" aria-label="${l[1]}"><span>${l[0]}</span><small>🔊</small></button>${an}</div><div class="lname" onclick="speak('${l[1]}')">${l[1]}</div><div class="lword" onclick="speak('${l[2]}')"><span class="lpic">${l[3]}</span><span class="lwd">${l[2]} 🔊</span></div><div class="forms">${shapes.map(f=>`<div class="fo"><b>${f[1]}</b><small>${f[0]}</small></div>`).join('')}</div>${nc?'<div class="nt">حَرْفٌ لَا يَتَّصِلُ بِمَا بَعْدَهُ</div>':'<div class="nt" style="color:#2a9d8f">حَرْفٌ يَتَّصِلُ بِمَا بَعْدَهُ</div>'}</div><p class="swh">↔️ اِسْحَبْ يَمِينًا أَوْ يَسَارًا لِتَنْتَقِلَ بَيْنَ الحُرُوفِ</p></div>`;
+pager('vL',i);speak(l[1]+'. '+l[2])}
+let CM=SM;
+const varG=()=>{const o=[];[0,1,2].forEach(r=>LT.forEach((x,i)=>o.push(hm(x[0],[F,D,K][(i+r)%3]))));LT.forEach(x=>o.push(M[TSUK](x[0])));return o};
+function vS(m,mods,t){if(mods){CM=mods;window.CT=t}m=m||CM[0];const L=CM===LM?LT.filter(x=>x[0]!='أ'):LT;
+const items=m==TVAR?varG():L.map((x,i)=>M[m](x[0],i));
+A.innerHTML=hd(window.CT||'المَقَاطِع')+`<div class="tabs">${CM.map(k=>`<button class="tab${k==m?' on':''}" onclick="vS('${k}')">${k}</button>`).join('')}</div><div class="cards">${items.map((s,i)=>typeof s=='object'?`<div class="sec" style="grid-column:1/-1;margin:10px 0 0">${s.h}</div>`:`<div class="cd" style="--h:${i*41}" onclick="speak('${s}')">${s}</div>`).join('')}</div>`}
+function vM(){vS(0,LM,'حُرُوفُ المَدِّ')}
+function openS(){window.CT='المَقَاطِع';vS(0,SM,'المَقَاطِع')}
+let SYT=0;
+
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+async function readWord(k,i,sr='WG'){const w=SRC[sr][k][i],parts=w[0].split('-'),card=document.getElementById('wc'+i);if(!card)return;const my=++SYT;
+document.querySelectorAll('.wc.sp,.wc.mg').forEach(c=>c.classList.remove('sp','mg'));
+const sp=[...card.querySelectorAll('.sy')],clr=()=>sp.forEach(x=>x.classList.remove('syh'));card.classList.add('sp');
+for(let j=0;j<parts.length;j++){if(my!=SYT)return;clr();sp[j].classList.add('syh');await sayP(parts[j],2200);if(my!=SYT)return;await wait(250)}
+if(my!=SYT)return;clr();card.classList.remove('sp');card.classList.add('mg');await wait(150);await sayP(w[2]||parts.join(''),3500);if(my!=SYT)return;card.classList.remove('mg');add(0)}
+function vW(k){k=k||Object.keys(WG)[0];A.innerHTML=hd('الكَلِمَات')+`<div class="tabs">${Object.keys(WG).map(x=>`<button class="tab${x==k?' on':''}" onclick="vW('${x}')">${x}</button>`).join('')}</div><p class="swh" style="margin:0 0 10px">👆 اِلْمِسِ البِطَاقَةَ لِتَسْمَعَ كُلَّ مَقْطَعٍ عَلَى حِدَةٍ ثُمَّ الكَلِمَةَ كَامِلَةً</p><div class="cards">${WG[k].map((w,i)=>`<div class="cd wc" id="wc${i}" style="--h:${i*60}" onclick="readWord('${k}',${i})"><span class="e">${w[1]}</span>${w[0].split('-').map((p,j)=>`<span class="sy s${j%3}">${p}</span>`).join('')}</div>`).join('')}</div>`}
+function vWM(k){k=k||Object.keys(WMD)[0];A.innerHTML=hd('الكَلِمَاتُ بِالمَدِّ')+`<div class="tabs">${Object.keys(WMD).map(x=>`<button class="tab${x==k?' on':''}" onclick="vWM('${x}')">${x}</button>`).join('')}</div><p class="swh" style="margin:0 0 10px">👆 اِلْمِسِ البِطَاقَةَ: حَرْفُ المَدِّ وَالسَّاكِنُ يُقْرَآنِ مَعَ الحَرْفِ الَّذِي قَبْلَهُ</p><div class="cards">${WMD[k].map((w,i)=>`<div class="cd wc" id="wc${i}" style="--h:${i*60}" onclick="readWord('${k}',${i},'WMD')"><span class="e">${w[1]}</span>${w[0].split('-').map((p,j)=>`<span class="sy s${j%3}">${p}</span>`).join('')}</div>`).join('')}</div>`}
+const LNW=['ب','ث','ج','ح','ل','م','ن','ص','ي','ف'],LNY=['ب','ع','ل','س','غ','ط','خ','ز','ش','ج'],LNC=['ب','ل','ن','ج','ع','ص','ث','ح'];
+function vLn(k){const ks=Object.keys(WLN),CK='قَارِنْ';k=k||ks[0];const tabs=[...ks,CK];
+let body='';
+if(k==CK){body='<p class="swh" style="margin:0 0 10px">👂 اِسْمَعْ وَقَارِنْ: «بَا» مَدٌّ طَوِيلٌ، وَ«بَوْ» وَ«بَيْ» تَنْتَهِيَانِ بِحَرْفٍ سَاكِنٍ</p><div class="cards">'+LNC.map(c=>[c+F+'ا',c+F+'و\u0652',c+F+'ي\u0652']).flat().map((t,i)=>`<div class="cd" style="--h:${i*41}" onclick="speak('${t}')">${t}</div>`).join('')+'</div>'}
+else{const w=k==ks[0],L=w?LNW:LNY,e=w?'و':'ي';
+body=`<p class="swh" style="margin:0 0 10px">👆 ${w?'الوَاوُ السَّاكِنَةُ بَعْدَ الفَتْحَةِ تُقْرَأُ «وْ»: بَوْ، لَا بُو':'اليَاءُ السَّاكِنَةُ بَعْدَ الفَتْحَةِ تُقْرَأُ «يْ»: بَيْ، لَا بِي'}</p><div class="sec" style="margin:0 0 6px">المَقَاطِع</div><div class="cards">${L.map((c,i)=>{const t=c+F+e+'\u0652';return `<div class="cd" style="--h:${i*41}" onclick="speak('${t}')">${t}</div>`}).join('')}</div><div class="sec" style="margin:14px 0 6px">كَلِمَات</div><p class="swh" style="margin:0 0 10px">👆 اِلْمِسِ البِطَاقَةَ لِتَسْمَعَ كُلَّ مَقْطَعٍ ثُمَّ الكَلِمَةَ كَامِلَةً</p><div class="cards">${WLN[k].map((x,i)=>`<div class="cd wc" id="wc${i}" style="--h:${i*60}" onclick="readWord('${k}',${i},'WLN')"><span class="e">${x[1]}</span>${x[0].split('-').map((p,j)=>`<span class="sy s${j%3}">${p}</span>`).join('')}</div>`).join('')}</div>`}
+A.innerHTML=hd('حُرُوفُ اللِّين')+`<div class="tabs">${tabs.map(x=>`<button class="tab${x==k?' on':''}" onclick="vLn('${x}')">${x}</button>`).join('')}</div>`+body}
+const lmWr=(w,sol)=>sol?w.replace('ال','ا<span class="mut">ل</span>'):w;
+const CX=tl=>LV==8?lmDisp(tl):ctx(tl);
+const lmSy=a=>lmDisp(a.split('-')).map((p,j)=>`<span class="sy s${j%3}">${p}</span>`).join('');
+function vLm(k){const tabs=['تَعَارُف',LMQ,LMS];k=k||tabs[0];let body='';
+if(k==tabs[0]){const ex=(ic,ttl,ds,w,pa,sol)=>`<div class="big q" style="--h:${sol?40:210};margin-bottom:12px"><div class="pic">${ic}</div><div class="nm">${ttl}</div><div class="nt">${ds}</div><button class="rd" onclick="speak('${w}')">🔊 ${lmWr(w,sol)}</button><div class="cd wc sp" style="cursor:default;margin-top:10px">${lmSy(pa)}</div></div>`;
+body=ex('🌙','اللَّامُ القَمَرِيَّةُ','تُكْتَبُ وَتُلْفَظُ','الْقَمَرُ','الْ-قَ-مَ-رُ',0)+ex('☀️','اللَّامُ الشَّمْسِيَّةُ','تُكْتَبُ وَلَكِنْ لَا تُلْفَظُ','الشَّمْسُ','اشْ-شَمْ-سُ',1)}
+else{const sol=k==LMS;body=`<p class="swh" style="margin:0 0 10px">👆 ${sol?'اللَّامُ الشَّمْسِيَّةُ تُكْتَبُ وَلَكِنْ لَا تُلْفَظُ: <span style="white-space:nowrap">الشَّمْسُ ← '+lmDisp(['اشْ','شَمْ','سُ']).join(' ')+'</span>':'اللَّامُ القَمَرِيَّةُ تُكْتَبُ وَتُلْفَظُ: <span style="white-space:nowrap">الْقَمَرُ ← '+lmDisp(['الْ','قَ','مَ','رُ']).join(' ')+'</span>'}<br>اِلْمِسِ البِطَاقَةَ لِتَسْمَعَ كُلَّ مَقْطَعٍ ثُمَّ الكَلِمَةَ كَامِلَةً</p><div class="cards lmc">${WLM[k].map((w,i)=>`<div class="cd wc" id="wc${i}" style="--h:${i*60}" onclick="readWord('${k}',${i},'WLM')"><span class="e">${w[1]}</span><span class="dw">${lmWr(w[2],sol)}</span><span class="sw">${lmSy(w[0])}</span></div>`).join('')}</div>`}
+A.innerHTML=hd('اللَّامُ الشَّمْسِيَّةُ وَالقَمَرِيَّةُ')+`<div class="tabs">${tabs.map(x=>`<button class="tab${x==k?' on':''}" onclick="vLm('${x}')">${x}</button>`).join('')}</div>`+body}
+function vWS(k){k=k||Object.keys(WSD)[0];A.innerHTML=hd('الكَلِمَاتُ المُشَدَّدَة')+`<div class="tabs">${Object.keys(WSD).map(x=>`<button class="tab${x==k?' on':''}" onclick="vWS('${x}')">${x}</button>`).join('')}</div><p class="swh" style="margin:0 0 10px">👆 الحَرْفُ المُشَدَّدُ حَرْفَانِ: الأَوَّلُ سَاكِنٌ يُقْرَأُ مَعَ مَا قَبْلَهُ، وَالثَّانِي مُتَحَرِّكٌ</p><div class="cards">${WSD[k].map((w,i)=>`<div class="cd wc" id="wc${i}" style="--h:${i*60}" onclick="readWord('${k}',${i},'WSD')"><span class="e">${w[1]}</span><span class="dw">${w[2]}</span><span class="sw">${w[0].split('-').map((p,j)=>`<span class="sy s${j%3}">${p}</span>`).join('')}</span></div>`).join('')}</div>`}
+const wordsHtml=t=>t.split(' ').map(w=>`<span class="w" onclick="speak(this.textContent)">${w}</span>`).join(' ');
+let HT=[];
+function readS(id,t){HT.forEach(clearTimeout);HT=[];const ws=[...document.querySelectorAll('#'+id+' .w')],st=[];let p=0,got=0,d=250;t.split(' ').forEach(w=>{st.push(p);p+=w.length+1});
+speak(t,ci=>{if(!got){got=1;HT.forEach(clearTimeout);HT=[]}let k=0;st.forEach((x,j)=>{if(ci>=x)k=j});ws.forEach(x=>x.classList.remove('hl'));if(ws[k])ws[k].classList.add('hl')});
+ws.forEach(w=>{HT.push(setTimeout(()=>{ws.forEach(x=>x.classList.remove('hl'));w.classList.add('hl')},d));d+=320+w.textContent.replace(/[\u064B-\u0652]/g,'').length*95});HT.push(setTimeout(()=>ws.forEach(x=>x.classList.remove('hl')),d))}
+function vSe(){let n=0;A.innerHTML=hd('الجُمَل')+SS.map(g=>`<div class="sec">${g[0]}</div>`+g[1].map(s=>{n++;return `<div class="sent" id="s${n}">${wordsHtml(s)}<button class="rd" onclick="readS('s${n}','${s}')">🔊 اِسْمَعْ</button></div>`}).join('')).join('')}
+function vSt(i,p){if(i==null){const LV=['المُسْتَوَى الأَوَّلُ: جُمَلٌ قَصِيرَةٌ جِدًّا','المُسْتَوَى الثَّانِي: قِصَصٌ قَصِيرَةٌ','المُسْتَوَى الثَّالِثُ: قِصَصٌ مُتَوَسِّطَةٌ','المُسْتَوَى الرَّابِعُ: قِصَصٌ طَوِيلَةٌ'];const tile=(s,k)=>{const lk=k>0&&!isUnlocked();return `<button class="tile${lk?' lock':''}" style="--h:${k*80+10}" onclick="${lk?'unlockScreen()':`vSt(${k},0)`}"><i>${s[1][0][0]}</i>${s[0]}</button>`};A.innerHTML=hd('القِصَص')+LV.map((t,L)=>`<div class="sec">${t}</div><div class="grid">${ST.map((s,k)=>s[2]===L?tile(s,k):'').join('')}</div>`).join('');return}
+if(i>0&&!isUnlocked()){unlockScreen();return}
+const s=ST[i],n=s[1].length,pg=s[1][p];
+A.innerHTML=hd(s[0])+`<div class="dots">${s[1].map((x,j)=>`<span class="dt${j==p?' on':''}">●</span>`).join('')}</div><div class="scene" style="background:${pg[1]}"><div class="e">${pg[0]}</div><div class="t" id="pg">${wh(pg[2],'pw')}</div><div class="opts2"><button class="rd" onclick="readS('pg','${pg[2]}')">🔊 اِسْمَعْ</button></div></div><div class="nav"><button class="tab" onclick="${p>0?`vSt(${i},${p-1})`:'vSt()'}">→ السَّابِق</button><button class="tab on" onclick="${p<n-1?`vSt(${i},${p+1})`:`vSd(${i})`}">${p<n-1?'التَّالِي ←':'اِنْتَهَتِ القِصَّةُ 🏁'}</button></div>`}
+function vSd(i){add(3);
+A.innerHTML=hd(ST[i][0])+`<div class="big q" style="--h:45"><div class="pic">🏆</div><div class="nm">⭐⭐⭐</div><div class="res">أَحْسَنْتَ! أَنْهَيْتَ القِصَّةَ.</div></div><div class="nav"><button class="tab" onclick="vSt(${i},0)">🔁 أَقْرَأُ مِنَ البِدَايَةِ</button><button class="tab on" onclick="vSt()">القِصَصُ 📚</button></div>`;speak('مُمْتَاز')}
+let CC='#ff6b6b';
+const CP=[['🏠','#bfe9ff',[['r',0,230,400,70],['c',330,55,34],['r',90,130,140,110],['p','75,130 160,65 245,130'],['r',140,180,40,60],['r',105,145,30,28],['r',185,145,30,28],['r',305,170,22,70],['c',316,150,48],['e',70,45,42,20]]],
+['🐟','#bfe9ff',[['r',0,250,400,50],['e',60,225,14,45],['e',100,235,12,35],['e',190,150,90,55],['p','275,150 350,100 350,200'],['p','165,100 230,100 200,62'],['c',140,135,10],['c',330,60,14],['c',360,95,9],['c',300,40,8]]],
+['🌷','#bfe9ff',[['r',0,250,400,50],['c',340,50,30],['r',193,135,14,115],['e',160,200,32,14],['e',240,215,32,14],['c',200,70,28],['c',240,100,28],['c',225,145,28],['c',175,145,28],['c',160,100,28],['c',200,110,24]]],
+['🚗','#bfe9ff',[['r',0,243,400,57],['c',340,50,28],['e',80,50,50,20],['r',60,150,280,60,14],['p','120,150 160,100 270,100 305,150'],['p','135,148 165,108 195,108 195,148'],['p','205,108 262,108 290,148 205,148'],['c',120,215,28],['c',280,215,28]]],
+['🚀','#b9b3e6',[['c',60,60,8],['c',330,80,8],['c',90,200,6],['c',330,200,32],['p','175,210 225,210 200,265'],['p','160,170 120,225 160,210'],['p','240,170 280,225 240,210'],['r',160,100,80,110],['p','200,30 240,100 160,100'],['c',200,140,18]]],
+['🦋','#d9f5d0',[['e',150,110,50,40],['e',250,110,50,40],['e',160,185,38,30],['e',240,185,38,30],['r',192,95,16,110,8],['c',200,85,14]]]];
+const sv=s=>(s[0]=='c'?`<circle class="f" cx="${s[1]}" cy="${s[2]}" r="${s[3]}"`:s[0]=='r'?`<rect class="f" x="${s[1]}" y="${s[2]}" width="${s[3]}" height="${s[4]}" rx="${s[5]||0}"`:s[0]=='e'?`<ellipse class="f" cx="${s[1]}" cy="${s[2]}" rx="${s[3]}" ry="${s[4]}"`:`<polygon class="f" points="${s[1]}"`)+' fill="#fff" onclick="this.style.fill=CC"/>';
+function vC(i=0){const P=['#ff6b6b','#ffd166','#06d6a0','#4cc9f0','#9b5de5','#f15bb5','#8d5a2b','#ffffff'],p=CP[i];
+A.innerHTML=hd('التَّلْوِين')+`<div class="chips">${CP.map((x,j)=>`<button class="chip${j==i?' on':''}" style="--h:${j*60}" onclick="vC(${j})">${x[0]}</button>`).join('')}</div><svg viewBox="0 0 400 300" style="background:${p[1]}">${p[2].map(sv).join('')}</svg><div class="pal">${P.map(c=>`<button style="background:${c}" onclick="CC='${c}'"></button>`).join('')}</div><p class="hi">اِخْتَرْ لَوْنًا ثُمَّ اِلْمِسِ الشَّكْلَ 🖌️</p><div class="nav"><button class="tab" onclick="vC(${i})">🧽 اِمْسَحِ الكُلَّ</button></div>`}
+let G3={};const TL=/[\u0621-\u064A][\u064B-\u0652\u0670]*/g;
+const NC='ادذرزوأإآؤةء',lb=t=>[...t].filter(c=>/[\u0621-\u064A]/.test(c)).pop()||'';
+const NCX=new Set([...NC,'ا','ة','ى','ء','ؤ']);
+const lmDisp=tl=>tl.map((t,i)=>{const k=t.replace(/[\u064B-\u0652]/g,''),art=i==0&&k=='ال';let h=t;if(i==0&&k[1]!='ل')h='ا<span class="mut">ل</span>'+t.slice(1);return h+(i<tl.length-1&&!art&&!NCX.has(k[k.length-1])?'ـ':'')});
+const ctx=tl=>tl.map((t,i)=>(i>0&&!NC.includes(lb(tl[i-1]))?'ـ':'')+t+(i<tl.length-1&&!NC.includes(lb(t))?'ـ':''));
+const GW=[['أَرْ-نَ-بٌ','🐰'],['ثَعْ-لَ-بٌ','🦊'],['جَ-مَ-لٌ','🐪'],['حِ-صَا-نٌ','🐴'],['خَ-رُو-فٌ','🐑'],['ذُ-رَ-ةٌ','🌽'],['رَ-جُ-لٌ','👨'],['زَ-رَا-فَ-ةٌ','🦒'],['سَ-مَ-كَ-ةٌ','🐟'],['شَمْ-سٌ','☀️'],['صَا-رُو-خٌ','🚀'],['ضِفْ-دَ-عٌ','🐸'],['طَا-ئِ-رَ-ةٌ','✈️'],['ظَرْ-فٌ','✉️'],['عِ-نَ-بٌ','🍇'],['غَيْ-مَ-ةٌ','☁️'],['فِي-لٌ','🐘'],['قَ-مَ-رٌ','🌙'],['كِ-تَا-بٌ','📖'],['لَيْ-مُو-نٌ','🍋'],['مَوْ-زٌ','🍌'],['نَجْ-مَ-ةٌ','⭐'],['وَرْ-دَ-ةٌ','🌹'],['يَ-دٌ','✋'],['كُ-رَ-ةٌ','⚽'],['بَ-قَ-رَ-ةٌ','🐄'],['شَ-جَ-رَ-ةٌ','🌳'],['حَ-قِي-بَ-ةٌ','🎒'],['فَ-رَا-شَ-ةٌ','🦋'],['مَدْ-رَ-سَ-ةٌ','🏫'],['عُصْ-فُو-رٌ','🐦'],['حُو-تٌ','🐋'],['بَا-بٌ','🚪']];
+WG[Object.keys(WG)[0]].push(['دَ-خَ-لَ','⤵️'],['خَ-رَ-جَ','⤴️'],['رَ-كَ-ضَ','🏃'],['نَ-ظَ-رَ','👀'],['لَ-مَ-سَ','🤚'],['طَ-لَ-عَ','⬆️'],['صَ-عَ-دَ','🪜'],['هَ-بَ-طَ','🪂'],['غَ-سَ-لَ','🧼'],['رَ-قَ-صَ','💃'],['خَ-بَ-زَ','🍞'],['زَ-رَ-عَ','🌱'],['حَ-فَ-رَ','⛏️'],['جَ-مَ-عَ','🧺'],['مَ-سَ-حَ','🧽'],['عَ-زَ-فَ','🎻'],['طَ-بَ-خَ','🍳'],['سَ-جَ-دَ','🕌'],['كَ-سَ-رَ','💔'],['قَ-طَ-فَ','🍒'],['وَ-قَ-فَ','🧍'],['وَ-ضَ-عَ','📦'],['شَ-كَ-رَ','🙏'],['حَ-لَ-بَ','🥛']);
+WG['الأَسْمَاء']=GW;
+const WMD={'مَدُّ الأَلِف':[['بَا-بٌ','🚪'],['كِ-تَا-بٌ','📖'],['نَا-رٌ','🔥'],['دَا-رٌ','🏠'],['سَا-عَ-ةٌ','⏰'],['غَا-بَ-ةٌ','🌳'],['حِ-صَا-نٌ','🐴'],['هِ-لَا-لٌ','🌙'],['غَ-زَا-لٌ','🦌'],['سَ-حَا-بٌ','☁️'],['قَا-رِ-بٌ','⛵'],['مِفْ-تَا-حٌ','🔑'],['نَا-فِ-ذَ-ةٌ','🪟'],['بَا-صٌ','🚌'],['خَا-تَ-مٌ','💍'],['قَ-طَا-رٌ','🚆'],['هَا-تِ-فٌ','📱'],['غُ-رَا-بٌ','🐦']],
+'مَدُّ الوَاو':[['نُو-رٌ','💡'],['حُو-تٌ','🐋'],['بُو-مَ-ةٌ','🦉'],['فُو-لٌ','🫘'],['سُو-رٌ','🧱'],['كُو-بٌ','🥤'],['سُو-قٌ','🏪'],['صُو-رَ-ةٌ','🖼️'],['دُو-دَ-ةٌ','🐛'],['عُصْ-فُو-رٌ','🐦'],['نُ-جُو-مٌ','⭐'],['حُ-رُو-فٌ','🔤'],['رُ-سُو-مٌ','🎨'],['قُ-رُو-دٌ','🐒'],['أُ-سُو-دٌ','🦁'],['طُ-يُو-رٌ','🕊️'],['تُو-تٌ','🍓']],
+'مَدُّ اليَاء':[['فِي-لٌ','🐘'],['كَ-بِي-رٌ','🏔️'],['صَ-غِي-رٌ','🐣'],['جَ-مِي-لٌ','🌸'],['سَ-فِي-نَ-ةٌ','🚢'],['حَ-دِي-قَ-ةٌ','🌷'],['مَ-دِي-نَ-ةٌ','🏙️'],['طَ-رِي-قٌ','🛣️'],['بَ-رِي-دٌ','✉️'],['سَ-رِي-رٌ','🛏️'],['قَ-مِي-صٌ','👕'],['خَ-رِي-فٌ','🍂'],['حَ-لِي-بٌ','🥛'],['رَ-غِي-فٌ','🍞'],['بَ-طِي-خٌ','🍉'],['مِنْ-دِي-لٌ','🧻'],['تِلْ-مِي-ذٌ','🧒'],['إِبْ-رِي-قٌ','🫖'],['جَ-رِي-دَ-ةٌ','📰']],
+'مُتَنَوِّع':[['صَا-بُو-نٌ','🧼'],['مِي-زَا-نٌ','⚖️'],['بُرْ-تُ-قَا-لٌ','🍊'],['دُو-لَا-بٌ','🗄️'],['حَا-سُو-بٌ','💻'],['مِصْ-بَا-حٌ','🔦'],['سِرْ-وَا-لٌ','👖'],['فُسْ-تَا-نٌ','👗'],['قَا-رُو-رَ-ةٌ','🍼'],['بُسْ-تَا-نٌ','🌿'],['مَ-طَا-رٌ','🛫'],['سَ-لَا-مٌ','👋'],['نَا-ئِ-مٌ','😴'],['جَا-ئِ-عٌ','🍽️'],['زُ-جَا-جٌ','🪞'],['كَ-رِي-مٌ','🤲']]};
+const WSD={'الشَّدَّةُ مَعَ الفَتْحَة':[['تُفْ-فَا-حٌ','🍎','تُفَّاحٌ'],['بَطْ-طَ-ةٌ','🦆','بَطَّةٌ'],['قِطْ-طَ-ةٌ','🐱','قِطَّةٌ'],['جَنْ-نَ-ةٌ','🌳','جَنَّةٌ'],['سُكْ-كَ-رٌ','🍬','سُكَّرٌ'],['شُبْ-بَا-كٌ','🪟','شُبَّاكٌ'],['كَرْ-رَا-سَ-ةٌ','📓','كَرَّاسَةٌ'],['سَيْ-يَا-رَ-ةٌ','🚗','سَيَّارَةٌ'],['طَيْ-يَا-رَ-ةٌ','✈️','طَيَّارَةٌ'],['رَسْ-سَا-مٌ','🎨','رَسَّامٌ'],['نَجْ-جَا-رٌ','🪚','نَجَّارٌ'],['خَبْ-بَا-زٌ','🥖','خَبَّازٌ'],['حَلْ-لَا-قٌ','💈','حَلَّاقٌ'],['غَوْ-وَا-صٌ','🤿','غَوَّاصٌ'],['طَبْ-بَا-خٌ','👨‍🍳','طَبَّاخٌ'],['بَقْ-قَا-لٌ','🏪','بَقَّالٌ'],['سَمْ-مَا-كٌ','🐟','سَمَّاكٌ'],['ثَلْ-لَا-جَ-ةٌ','🧊','ثَلَّاجَةٌ'],['غَسْ-سَا-لَ-ةٌ','🧺','غَسَّالَةٌ'],['دَرْ-رَا-جَ-ةٌ','🚲','دَرَّاجَةٌ'],['نَظْ-ظَا-رَ-ةٌ','👓','نَظَّارَةٌ'],['قُبْ-بَ-عَ-ةٌ','🎩','قُبَّعَةٌ'],['مَ-حَطْ-طَ-ةٌ','🚉','مَحَطَّةٌ'],['قِصْ-صَ-ةٌ','📚','قِصَّةٌ'],['سَلْ-لَ-ةٌ','🛒','سَلَّةٌ']],
+'الشَّدَّةُ مَعَ الضَّمَّة':[['يَ-شُدْ-دُ','🪢','يَشُدُّ'],['يَ-مُدْ-دُ','🤝','يَمُدُّ'],['يَ-عُدْ-دُ','🔢','يَعُدُّ'],['يَ-قُصْ-صُ','✂️','يَقُصُّ'],['يَ-حُلْ-لُ','🧩','يَحُلُّ'],['يَ-ضُمْ-مُ','🤗','يَضُمُّ'],['يَ-رُدْ-دُ','↩️','يَرُدُّ'],['يَ-سُدْ-دُ','🚧','يَسُدُّ'],['حُبْ-بٌ','💖','حُبٌّ'],['عُشْ-شٌ','🪺','عُشٌّ'],['جَدْ-دٌ','👴','جَدٌّ'],['سَدْ-دٌ','🏞️','سَدٌّ'],['كَفْ-فٌ','✋','كَفٌّ'],['خُفْ-فٌ','👟','خُفٌّ'],['ظِلْ-لٌ','⛱️','ظِلٌّ'],['سِنْ-نٌ','🦷','سِنٌّ']],
+'الشَّدَّةُ مَعَ الكَسْرَة':[['مُ-عَلْ-لِ-مٌ','👩‍🏫','مُعَلِّمٌ'],['مُ-دَرْ-رِ-سٌ','🧑‍🏫','مُدَرِّسٌ'],['مُ-مَرْ-رِ-ضٌ','🧑‍⚕️','مُمَرِّضٌ'],['مُ-صَوْ-وِ-رٌ','📷','مُصَوِّرٌ'],['مُ-حَرْ-رِ-كٌ','⚙️','مُحَرِّكٌ'],['مُ-نَظْ-ظِ-فٌ','🧹','مُنَظِّفٌ'],['يُ-عَلْ-لِ-مُ','🧠','يُعَلِّمُ'],['يُ-سَلْ-لِ-مُ','👋','يُسَلِّمُ'],['يُ-نَظْ-ظِ-فُ','🧼','يُنَظِّفُ'],['يُ-صَوْ-وِ-رُ','📸','يُصَوِّرُ'],['يُ-كَبْ-بِ-رُ','🔍','يُكَبِّرُ'],['يُ-قَلْ-لِ-دُ','🦜','يُقَلِّدُ']],
+'مُتَنَوِّع':[['كُرْ-سِي-يٌ','🪑','كُرْسِيٌّ'],['حَارْ-رٌ','☀️','حَارٌّ'],['مِ-ظَلْ-لَ-ةٌ','☂️','مِظَلَّةٌ'],['بَلْ-لُو-رٌ','💎','بَلُّورٌ'],['سُلْ-لَ-مٌ','🪜','سُلَّمٌ'],['حَمْ-مَا-مٌ','🛁','حَمَّامٌ'],['جَرْ-رَا-فَ-ةٌ','🚜','جَرَّافَةٌ'],['سَجْ-جَا-دَ-ةٌ','🧶','سَجَّادَةٌ']]};
+const WLN={'الوَاوُ السَّاكِنَة':[['لَوْ-نٌ','🎨'],['مَوْ-زٌ','🍌'],['نَوْ-مٌ','😴'],['ثَوْ-بٌ','👕'],['صَوْ-تٌ','🔊'],['يَوْ-مٌ','📅']],'اليَاءُ السَّاكِنَة':[['بَيْ-تٌ','🏠'],['عَيْ-نٌ','👁️'],['لَيْ-لٌ','🌙'],['غَيْ-مٌ','☁️'],['طَيْ-رٌ','🐦'],['خَيْ-طٌ','🧵']]}; const LMQ='اللَّامُ القَمَرِيَّة',LMS='اللَّامُ الشَّمْسِيَّة';
+const WLM={[LMQ]:[['الْ-قَ-مَ-رُ','🌙','الْقَمَرُ'],['الْ-كِ-تَا-بُ','📖','الْكِتَابُ'],['الْ-بَا-بُ','🚪','الْبَابُ'],['الْ-فِي-لُ','🐘','الْفِيلُ'],['الْ-جَ-مَ-لُ','🐪','الْجَمَلُ'],['الْ-وَ-لَ-دُ','👦','الْوَلَدُ'],['الْ-يَ-دُ','✋','الْيَدُ'],['الْ-عِ-نَ-بُ','🍇','الْعِنَبُ'],['الْ-مَوْ-زُ','🍌','الْمَوْزُ'],['الْ-حِ-صَا-نُ','🐴','الْحِصَانُ']],
+[LMS]:[['اشْ-شَمْ-سُ','☀️','الشَّمْسُ'],['انْ-نَجْ-مَ-ةُ','⭐','النَّجْمَةُ'],['اسْ-سَ-مَ-كَ-ةُ','🐟','السَّمَكَةُ'],['ارْ-رَ-جُ-لُ','👨','الرَّجُلُ'],['ازْ-زَهْ-رَ-ةُ','🌷','الزَّهْرَةُ'],['اشْ-شَ-جَ-رَ-ةُ','🌳','الشَّجَرَةُ'],['انْ-نَا-رُ','🔥','النَّارُ'],['اسْ-سَا-عَ-ةُ','⏰','السَّاعَةُ'],['اطْ-طَا-ئِ-رَ-ةُ','✈️','الطَّائِرَةُ'],['اثْ-ثَعْ-لَ-بُ','🦊','الثَّعْلَبُ']]};
+const LQL=['أ','ب','ج','ح','خ','ع','غ','ف','ق','ك','م','ه','و','ي'],LSL=['ت','ث','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ل','ن'];
+const SRC={WG,WMD,WSD,WLN,WLM};
+/* ===== الألعاب: مبنيّة حرفيًّا على محتوى التطبيق (حروف، مقاطع، مدّ، سكون، شدّة، كلمات، جمل، قصص) ===== */
+const SKL=t=>t.replace(/[\u064B-\u0652\u0670]/g,'');
+/* كلمات صورتها (الإيموجي) لا تطابقها تمامًا: تُستثنى من ألعاب «الصورة» فقط */
+const PXB=new Set(['سجادة','زجاج','توت','منديل','غسالة','غراب','طيور','نجوم','حروف','رسوم','قرود','أسود','كبير','صغير','جميل','جائع','نائم','كريم','سلام','حار','خريف','حب','سد','ظل','خف','جنة','قصة','سكر','مدرس','جرافة','قارورة','بستان','ثلاجة','سماك','خباز','سلة','حديقة','عش','حلب','جلس','فتح','سمع','حمل','دخل','خرج','نظر','لمس','طلع','صعد','هبط','حفر','جمع','مسح','عزف','سجد','كسر','قطف','وضع','شكر','علم','خبز','زرع','طبخ','غسل','ظرف','غابة','هلال','غزال','سحاب','دار','نور','سور','سوق','مدينة','طريق','بريد','تلميذ','إبريق','جريدة','ميزان','دولاب','مصباح','مطار','رسام','نجار','حلاق','غواص','بقال','قبعة','محطة','كف','محرك','منظف','بلور','حمام']);
+let WK='A';
+const WTABS=[['A','الأَسْمَاءُ'],['M','كَلِمَاتُ المَدِّ'],['S','كَلِمَاتُ الشَّدَّةِ'],['X','الكُلُّ']];
+const LVT=()=>{const ks=Object.keys(WG);return LV==6?Object.keys(WMD).map((k,i)=>['M'+i,k]):LV==7?[['SX','كَلِمَاتُ الشَّدَّةِ']]:LV==8?[['LQ',LMQ],['LS',LMS]]:[['F',ks[0]],['D',ks[1]],['K',ks[2]],['U',ks[4]],['A',ks[5]]]};
+const wtabs=fn=>`<div class="tabs">${LVT().map(t=>`<button class="tab${t[0]==WK?' on':''}" onclick="${fn}('${t[0]}')">${t[1]}</button>`).join('')}</div>`;
+function gwords(k){const o=[],seen=new Set();
+const push=(w,fs)=>{const tl=w[0].split('-'),show=fs||tl.join(''),sk=SKL(show);if(PXB.has(sk)||seen.has(sk))return;seen.add(sk);o.push({tl,pic:w[1],show})};
+if(k=='A'||k=='X')GW.forEach(w=>push(w));
+const wgi={F:0,D:1,K:2,U:4};if(k in wgi)Object.values(WG)[wgi[k]].forEach(w=>push(w));
+if(/^M\d$/.test(k))Object.values(WMD)[+k[1]].forEach(w=>push(w));
+if(k=='LQ'||k=='LS')WLM[k=='LQ'?LMQ:LMS].forEach(w=>push(w,w[2]));
+if(k=='SX')Object.values(WSD).forEach(g=>g.forEach(w=>{if(w[2][0]!='ي')push(w,w[2])}));
+if(/^S\d$/.test(k))Object.values(WSD)[+k[1]].forEach(w=>{if(w[2][0]!='ي')push(w,w[2])});
+if(k=='M'||k=='X')Object.values(WMD).forEach(g=>g.forEach(w=>push(w)));
+if(k=='S'||k=='X')Object.values(WSD).forEach(g=>g.forEach(w=>{if(w[2][0]!='ي')push(w,w[2])}));
+return o}
+function pick(P,t,n){const o=[],u=new Set([t.pic]);for(const w of sh(P)){if(o.length>=n)break;if(w===t||u.has(w.pic))continue;u.add(w.pic);o.push(w)}return o}
+
+let LV=0;const LVW={4:'F',6:'M0',7:'SX',8:'LQ'};
+function gl(n,f,a){LV=n;if(f==g2)G2M=a;if(LVW[n])WK=LVW[n];f()}
+const LVS=[[1,'الحُرُوف',[['g1','🖼️','مَا الحَرْفُ الأَوَّلُ؟',20],['g10','🎯','اِصْطَدِ الحَرْفَ',100],['g2','👂','اِسْمَعْ وَاخْتَرْ',200,0],['g9','🃏','لُعْبَةُ الذَّاكِرَةِ',300]]],
+[2,'المَقَاطِع',[['g2','👂','اِسْمَعْ وَاخْتَرْ',200,1],['g11','🧱','رَكِّبِ المَقْطَعَ',260]]],
+[3,'السُّكُون',[['g2','👂','اِسْمَعْ وَاخْتَرْ',200,3]]],
+[4,'الكَلِمَات',[['g3','🧱','رَكِّبِ الكَلِمَةَ',260],['g4','🔤','أَيُّ كَلِمَةٍ هَذِهِ؟',340],['g5','🧩','أَكْمِلِ الكَلِمَةَ',170]]],
+[5,'حُرُوفُ المَدِّ',[['g2','👂','اِسْمَعْ وَاخْتَرْ',200,2]]],
+[6,'الكَلِمَاتُ بِالمَدِّ',[['g3','🧱','رَكِّبِ الكَلِمَةَ',260],['g4','🔤','أَيُّ كَلِمَةٍ هَذِهِ؟',340],['g5','🧩','أَكْمِلِ الكَلِمَةَ',170],['g6','🎵','أَيُّ حَرْفِ مَدٍّ؟',230]]],
+[7,'الشَّدَّة',[['g7','🔠','أَيْنَ الشَّدَّةُ؟',0],['g3','🧱','رَكِّبِ الكَلِمَةَ',260],['g4','🔤','أَيُّ كَلِمَةٍ هَذِهِ؟',340],['g5','🧩','أَكْمِلِ الكَلِمَةَ',170]]],
+[8,'اللَّامُ الشَّمْسِيَّةُ وَالقَمَرِيَّةُ',[['g14','🌗','شَمْسِيَّةٌ أَمْ قَمَرِيَّةٌ؟',60],['g3','🧱','رَكِّبِ الكَلِمَةَ',260],['g4','🔤','أَيُّ كَلِمَةٍ هَذِهِ؟',340]]],
+[9,'الجُمَل',[['g8','📝','رَتِّبِ الجُمْلَةَ',280],['g12','🖼️','اِخْتَرِ الجُمْلَةَ المُنَاسِبَةَ',40]]],
+[10,'القِصَص',[['g13','📚','رَتِّبْ أَحْدَاثَ القِصَّةِ',120]]]];
+const lvBadge=n=>{const k=kid(),a=(k&&k.lv&&k.lv[n])||[0,0],m=a[0]>=30?'🥇':a[0]>=15?'🥈':a[0]>=5?'🥉':'⚪';return `<span class="tag">${m} ${a[0]} ✓</span>`};
+function vG(){A.innerHTML=hd('الأَلْعَاب')+LVS.map(l=>`<div class="sec">${l[0]}. ${l[1]} ${lvBadge(l[0])}</div><div class="grid">${l[2].map(g=>`<button class="tile" style="--h:${g[3]}" onclick="gl(${l[0]},${g[0]}${g.length>4?','+g[4]:''})"><i>${g[1]}</i>${g[2]}</button>`).join('')}</div>`).join('')}
+const NV='<div class="nav"><button class="tab" onclick="vG()">→ رُجُوع</button>';
+/* شَمْسِيَّةٌ أَمْ قَمَرِيَّةٌ؟ — كلمات قسم «اللام الشمسية والقمرية» */
+function g14(){const L=[];Object.keys(WLM).forEach(k=>WLM[k].forEach(w=>L.push({w,sol:k==LMS})));const q=rn(L),o=sh([[1,'☀️ شَمْسِيَّةٌ — لَا تُلْفَظُ'],[0,'🌙 قَمَرِيَّةٌ — تُلْفَظُ']]);
+A.innerHTML=hd('شَمْسِيَّةٌ أَمْ قَمَرِيَّةٌ؟')+`<div class="big q" style="--h:60"><div class="pic">${q.w[1]}</div><div class="gw">${q.w[2]}</div><button class="rd" onclick="speak('${q.w[2]}')">🔊 اِسْمَعْ</button><div class="nm">هَلْ نَلْفِظُ اللَّامَ فِي أَوَّلِ الكَلِمَةِ؟</div><div class="opts" style="display:flex;flex-direction:column;gap:8px">${o.map(x=>`<button style="font-size:1.6rem" onclick="ans(this,${!!x[0]==q.sol},g14,'${q.w[2]}')">${x[1]}</button>`).join('')}</div></div>${NV}</div>`;speak(q.w[2])}
+/* اصطد الحرف — من قسم «الحروف» */
+let G10={};
+const lForms=c=>NC.includes(c)?[c,'ـ'+c]:[c+'ـ','ـ'+c+'ـ','ـ'+c,c];
+function g10(){const q=rn(LT)[0],qi=LT.find(x=>x[0]==q),fs=sh(lForms(q)),tg=fs.slice(0,3);while(tg.length<3)tg.push(rn(fs));
+const ds=sh(LT.filter(x=>x[0]!=q&&x[0]!=qi[0])).slice(0,6).map(x=>rn(lForms(x[0]))),o=sh([...tg.map(g=>({g,ok:1})),...ds.map(g=>({g,ok:0}))]);G10={left:3};
+A.innerHTML=hd('اِصْطَدِ الحَرْفَ')+`<div class="big q" style="--h:100"><div class="nm">اِصْطَدْ حَرْفَ «${qi[0]}» (${qi[1]}) بِكُلِّ أَشْكَالِهِ</div><button class="rd" onclick="speak('${qi[1]}')">🔊 اِسْمَعْ</button><div class="opts">${o.map(x=>`<button onclick="p10(this,${x.ok})">${x.g}</button>`).join('')}</div><div class="res" id="r10">بَاقٍ: 3</div></div>${NV}</div>`;speak('اِصْطَدْ حَرْفَ '+qi[1])}
+function p10(b,ok){gmLog(ok);if(ok){b.classList.add('good');b.disabled=true;G10.left--;document.getElementById('r10').textContent=G10.left?'بَاقٍ: '+G10.left:'أَحْسَنْتَ! 🎉';if(!G10.left){add(2);speak('أَحْسَنْتَ');const my=SYT;setTimeout(()=>{if(my==SYT)g10()},1300)}}else{b.classList.add('bad');speak('حَاوِلْ مَرَّةً أُخْرَى')}}
+/* رَكِّبِ المَقْطَعَ — حرف + حركة (الدوال M نفسها) */
+let G11={};const V11=[F,D,K];
+function g11(){const L=LT.filter(x=>x[0]!='أ').map(x=>x[0]),c=rn(L);G11={c,v:Math.floor(Math.random()*3),cs:sh([c,...sh(L.filter(x=>x!=c)).slice(0,2)]),pc:null,pv:null};r11()}
+function r11(){const g=G11,t=g.c+V11[g.v];
+A.innerHTML=hd('رَكِّبِ المَقْطَعَ')+`<div class="big q" style="--h:260"><button class="rd" onclick="speak('${t}')">🔊 اِسْمَعِ المَقْطَعَ</button><div class="nm">اِخْتَرِ الحَرْفَ</div><div class="opts" id="o11c">${g.cs.map(x=>`<button onclick="p11('c','${x}',this)">${x}</button>`).join('')}</div><div class="nm">ثُمَّ الحَرَكَةَ</div><div class="opts" id="o11v">${V11.map((x,i)=>`<button onclick="p11('v',${i},this)">${'\u0640'+x}</button>`).join('')}</div><div class="res" id="r11">اِسْمَعْ ثُمَّ رَكِّبْ</div></div>${NV}</div>`;speak(t)}
+function p11(kind,val,b){const g=G11;if(g.done)return;g['p'+kind]=val;document.querySelectorAll('#o11'+kind+' button').forEach(x=>x.style.outline='');b.style.outline='4px solid #4cc9f0';
+if(g.pc!=null&&g.pv!=null){const ok=g.pc==g.c&&g.pv==g.v,t=g.c+V11[g.v];gmLog(ok);
+if(ok){g.done=1;document.getElementById('r11').textContent='أَحْسَنْتَ! 🎉 '+t;add(2);speak(t+'. أَحْسَنْتَ');const my=SYT;setTimeout(()=>{if(my==SYT)g11()},1600)}
+else{g.pc=g.pv=null;document.querySelectorAll('#o11c button,#o11v button').forEach(x=>x.style.outline='');document.getElementById('r11').textContent='حَاوِلْ مَرَّةً أُخْرَى';speak('حَاوِلْ مَرَّةً أُخْرَى')}}}
+/* اخْتَرِ الجُمْلَةَ المُنَاسِبَةَ لِلصُّورَةِ — مشاهد «القصص» نفسها */
+let G12={};
+const OK12=new Set(['0.0','0.1','1.0','1.1','2.0','2.1','3.1','4.0','4.1','5.0','5.1','6.0','6.1','7.0','7.2','7.3','8.2','9.0','9.2','11.0','11.1']);
+function g12(){const all=[];ST.forEach((s,i)=>s[1].forEach((p,j)=>{if(OK12.has(i+'.'+j))all.push(p)}));const q=rn(all),o=sh([q,...sh(all.filter(p=>p[0]!=q[0]&&p[2]!=q[2])).slice(0,2)]);G12.o=o.map(p=>p[2]);
+A.innerHTML=hd('اِخْتَرِ الجُمْلَةَ المُنَاسِبَةَ')+`<div class="big q" style="--h:40"><div class="pic">${q[0]}</div><div class="nm">أَيُّ جُمْلَةٍ تُنَاسِبُ الصُّورَةَ؟</div><div class="opts" style="display:flex;flex-direction:column;gap:8px">${o.map((p,i)=>`<button style="font-size:1.5rem" onclick="ans(this,${p==q},g12,G12.o[${i}])">${p[2]}</button>`).join('')}</div></div>${NV}</div>`;speak('أَيُّ جُمْلَةٍ تُنَاسِبُ الصُّورَةَ؟')}
+/* رَتِّبْ أَحْدَاثَ القِصَّةِ — من قسم «القصص» */
+let G13={};
+function g13(){const s=rn(ST),n=s[1].length;let pl;do{pl=sh(s[1].map((_,i)=>i))}while(n>1&&pl.every((v,i)=>v==i));G13={s,pos:0,used:[],pl};r13()}
+function r13(){const g=G13,sc=g.s[1],d=g.pos==sc.length;
+A.innerHTML=hd('رَتِّبْ أَحْدَاثَ القِصَّةِ')+`<div class="big q" style="--h:120"><div class="nm">${g.s[0]}</div><div class="gs">${sc.map((p,i)=>`<span class="gsl${i<g.pos?' fl':''}">${i<g.pos?i+1:''}</span>`).join('')}</div><div class="opts" style="display:flex;flex-direction:column;gap:8px">${g.pl.map(i=>`<button style="font-size:1.4rem${g.used.includes(i)?';opacity:.2':''}" ${g.used.includes(i)?'disabled':''} onclick="p13(${i},this)">${sc[i][2]}</button>`).join('')}</div><div class="res">${d?'أَحْسَنْتَ! 🎉':'اِضْغَطِ الأَحْدَاثَ بِالتَّرْتِيبِ'}</div></div>${NV}<button class="tab on" onclick="g13()">التَّالِي ←</button></div>`}
+function p13(i,b){const g=G13,ok=i==g.pos;gmLog(ok);if(ok){g.used.push(i);g.pos++;const d=g.pos==g.s[1].length;if(d)add(3);r13();speak(g.s[1][i][2]+(d?'. أَحْسَنْتَ':''))}else{b.classList.add('bad');setTimeout(()=>b.classList.remove('bad'),400);speak('حَاوِلْ مَرَّةً أُخْرَى')}}
+
+function ans(b,ok,nx,say){gmLog(ok);if(ok){b.classList.add('good');b.parentNode.querySelectorAll('button').forEach(x=>{x.disabled=true});add(1);speak(say?say+'. أَحْسَنْتَ':'أَحْسَنْتَ');const my=SYT;setTimeout(()=>{if(my==SYT)nx()},1300)}else{b.classList.add('bad');speak('حَاوِلْ مَرَّةً أُخْرَى')}}
+
+/* 1) ما الحرف الأول؟ — من قسم «الحروف» (الحرف + كلمته + صورتها) */
+function g1(){const q=rn(LT),o=sh([q,...sh(LT.filter(x=>x!=q)).slice(0,2)]);
+A.innerHTML=hd('مَا الحَرْفُ الأَوَّلُ؟')+`<div class="big q" style="--h:150"><div class="pic">${q[3]}</div><div class="nm">بِمَاذَا تَبْدَأُ هَذِهِ الكَلِمَةُ؟</div><button class="rd" onclick="speak('${q[2]}')">🔊 اِسْمَعْ</button><div class="opts">${o.map(x=>`<button onclick="ans(this,${x==q},g1,'${q[2]}')">${x[0]}</button>`).join('')}</div></div><div class="nav"><button class="tab" onclick="vG()">→ رُجُوع</button></div>`;speak('بِمَاذَا تَبْدَأُ هَذِهِ الكَلِمَةُ؟ '+q[2])}
+
+/* 2) اسمع واختر — من قسم «المقاطع» و«حروف المد» (الدوال M نفسها) */
+let G2M=0;const G2L={1:[0],2:[1],3:[3],5:[2]};const G2T=['الحُرُوفُ','الحَرَكَاتُ','المَدُّ','السُّكُونُ'];
+function g2(m){if(m!=null)G2M=m;const L=LT.filter(x=>x[0]!='أ').map(x=>x[0]);let o;
+if(G2M==0)o=sh(L).slice(0,3).map(c=>M['فَتْحَة'](c));
+else if(G2M==1){const c=rn(L);o=[M['فَتْحَة'](c),M['ضَمَّة'](c),M['كَسْرَة'](c)]}
+else if(G2M==2){const c=rn(L);o=[M['مَدُّ الأَلِف'](c),M['مَدُّ الوَاو'](c),M['مَدُّ اليَاء'](c)]}
+else o=sh(L).slice(0,3).map(c=>M['سُكُون'](c));
+o=sh(o);const q=rn(o);
+A.innerHTML=hd('اِسْمَعْ وَاخْتَرْ')+`<div class="tabs">${G2T.map((t,i)=>!(G2L[LV]||[0,1,2,3]).includes(i)?'':`<button class="tab${i==G2M?' on':''}" onclick="g2(${i})">${t}</button>`).join('')}</div><div class="big q" style="--h:280"><button class="tab on" style="font-size:2rem" onclick="speak('${q}')">🔊 اِسْمَعْ</button><div class="opts">${o.map(x=>`<button onclick="ans(this,${x==q},g2)">${x}</button>`).join('')}</div></div><div class="nav"><button class="tab" onclick="vG()">→ رُجُوع</button></div>`;speak(q)}
+
+/* 3) ركّب الكلمة — مقاطع كلمات «الأسماء» و«المد» و«الشدّة» */
+function g3(k){if(k)WK=k;const w=rn(gwords(WK)),tl=w.tl.slice();let pl;do{pl=sh(tl.map((t,i)=>i))}while(tl.length>1&&pl.every((v,i)=>v==i));
+G3={w:w.show,pic:w.pic,tl,cx:CX(tl),pos:0,used:[],pl};r3()}
+function r3(){const g=G3,d=g.pos==g.tl.length;A.innerHTML=hd('رَكِّبِ الكَلِمَةَ')+wtabs('g3')+`<div class="big q" style="--h:95"><div class="pic">${g.pic}</div><div class="slots">${g.tl.map((t,i)=>`<span class="sl${i<g.pos?' fl':''}">${i<g.pos?g.cx[i]:''}</span>`).join('')}</div><div class="opts">${g.pl.map(i=>`<button ${g.used.includes(i)?'disabled style="opacity:.2"':''} onclick="p3(${i},this)">${g.cx[i]}</button>`).join('')}</div><div class="res" id="r3">${d?'أَحْسَنْتَ! 🎉 '+g.w:'اِضْغَطِ المَقَاطِعَ بِالتَّرْتِيبِ'}</div></div><div class="nav"><button class="tab" onclick="vG()">→ رُجُوع</button><button class="tab" onclick="speak('${g.w}')">🔊 تَلْمِيح</button><button class="tab on" onclick="g3()">التَّالِي ←</button></div>`}
+function p3(i,b){const g=G3,ok=g.tl[i]==g.tl[g.pos];gmLog(ok);if(ok){g.used.push(i);g.pos++;const d=g.pos==g.tl.length;if(d)add(3);r3();speak(d?g.w+'. أَحْسَنْتَ':g.tl[i])}else{b.classList.add('bad');setTimeout(()=>b.classList.remove('bad'),400);speak('حَاوِلْ مَرَّةً أُخْرَى')}}
+
+/* 4) أيّ كلمة هذه؟ — صورة ← كلمة (من كلمات التطبيق) */
+function g4(k){if(k)WK=k;const P=gwords(WK),t=rn(P),o=sh([t,...pick(P,t,2)]);
+A.innerHTML=hd('أَيُّ كَلِمَةٍ هَذِهِ؟')+wtabs('g4')+`<div class="big q" style="--h:340"><div class="pic">${t.pic}</div><div class="nm">اِخْتَرِ الكَلِمَةَ المُنَاسِبَةَ لِلصُّورَةِ</div><div class="opts">${o.map(x=>`<button style="font-size:2.2rem" onclick="ans(this,${x===t},g4,'${x.show}')">${x.show}</button>`).join('')}</div></div><div class="nav"><button class="tab" onclick="vG()">→ رُجُوع</button></div>`;speak('أَيُّ كَلِمَةٍ هَذِهِ؟')}
+
+/* 5) أكمل الكلمة — المقطع الناقص */
+let G5={};
+function g5(k){if(k)WK=k;const P=gwords(WK),w=rn(P),tl=w.tl,m=Math.floor(Math.random()*tl.length),pool=[];
+P.forEach(x=>x.tl.forEach(s=>{if(s!=tl[m]&&!pool.includes(s))pool.push(s)}));
+const o=sh([tl[m],...sh(pool).slice(0,2)]),form=s=>ctx(tl.map((x,i)=>i==m?s:x))[m],cx=ctx(tl);G5={w:w.show};
+A.innerHTML=hd('أَكْمِلِ الكَلِمَةَ')+wtabs('g5')+`<div class="big q" style="--h:170"><div class="pic">${w.pic}</div><div class="slots">${tl.map((t,i)=>i==m?`<span class="sl" id="hole">؟</span>`:`<span class="sl fl">${cx[i]}</span>`).join('')}</div><div class="nm">مَا المَقْطَعُ النَّاقِصُ؟</div><div class="opts">${o.map(s=>`<button onclick="p5(this,${s==tl[m]},'${form(s)}')">${form(s)}</button>`).join('')}</div></div><div class="nav"><button class="tab" onclick="vG()">→ رُجُوع</button><button class="tab" onclick="speak('${w.show}')">🔊 تَلْمِيح</button></div>`}
+function p5(b,ok,f){gmLog(ok);if(ok){const h=document.getElementById('hole');if(h){h.textContent=f;h.classList.add('fl')}b.classList.add('good');b.parentNode.querySelectorAll('button').forEach(x=>{x.disabled=true});add(1);speak(G5.w+'. أَحْسَنْتَ');const my=SYT;setTimeout(()=>{if(my==SYT)g5()},1800)}else{b.classList.add('bad');speak('حَاوِلْ مَرَّةً أُخْرَى')}}
+
+/* 6) أيّ حرف مدّ؟ — من قسم «الكلمات بالمدّ» */
+const K6=Object.keys(WMD).slice(0,3),M6=['\u0640\u064E\u0627','\u0640\u064F\u0648','\u0640\u0650\u064A'];
+function g6(){const i=Math.floor(Math.random()*3),w=rn(WMD[K6[i]].filter(x=>SKL(x[0].split('-').join(''))!='طيور')),word=w[0].split('-').join(''),o=sh([0,1,2]);
+A.innerHTML=hd('أَيُّ حَرْفِ مَدٍّ؟')+`<div class="big q" style="--h:230"><div class="gw">${word}</div><button class="rd" onclick="speak('${word}')">🔊 اِسْمَعْ</button><div class="nm">أَيُّ حَرْفِ مَدٍّ فِي هَذِهِ الكَلِمَةِ؟</div><div class="opts">${o.map(j=>`<button style="font-size:2.6rem;line-height:1.2" onclick="ans(this,${j==i},g6,'${word}')">${M6[j]}<br><small style="font-size:1rem">${K6[j]}</small></button>`).join('')}</div></div><div class="nav"><button class="tab" onclick="vG()">→ رُجُوع</button></div>`;speak(word)}
+
+/* 7) أين الشدّة؟ — من قسم «الكلمات المشدّدة» */
+function shL(t){const i=t.indexOf('\u0651');if(i<1)return '';let j=i-1;while(j>0&&/[\u064B-\u0650\u0652\u0670]/.test(t[j]))j--;return t[j]}
+function g7(){const all=[];Object.values(WSD).forEach(g=>g.forEach(w=>all.push(w[2])));const t=rn(all),c=shL(t),LS=LT.map(x=>x[0]);
+const inw=[...new Set([...SKL(t)].filter(ch=>LS.includes(ch)&&ch!=c))],rest=sh(LS.filter(ch=>ch!=c&&!inw.includes(ch))),o=sh([c,...[...sh(inw),...rest].slice(0,2)]);
+A.innerHTML=hd('أَيْنَ الشَّدَّةُ؟')+`<div class="big q" style="--h:0"><div class="gw">${t}</div><button class="rd" onclick="speak('${t}')">🔊 اِسْمَعْ</button><div class="nm">عَلَى أَيِّ حَرْفٍ تَقَعُ الشَّدَّةُ؟</div><div class="opts">${o.map(x=>`<button onclick="ans(this,${x==c},g7,'${t}')">${x}</button>`).join('')}</div></div><div class="nav"><button class="tab" onclick="vG()">→ رُجُوع</button></div>`;speak(t)}
+
+/* 8) رتّب الجملة — جمل قسم «الجمل» وجمل «القصص» نفسها، بثلاثة مستويات */
+let G8={},SLV=0;const L8=['سَهْلٌ','مُتَوَسِّطٌ','صَعْبٌ'];
+function g8(k){if(k!=null)SLV=k;const all=[];SS.forEach(g=>g[1].forEach(s=>all.push(s)));ST.forEach(s=>s[1].forEach(p=>all.push(p[2])));
+const P=[...new Set(all)].filter(s=>{const n=s.split(' ').length;return SLV==0?n<=3:SLV==1?(n>=4&&n<=5):n>=6}),s=rn(P),tk=s.split(' ').map(x=>x.replace(/[.:،؟!]+$/,''));
+let pl;do{pl=sh(tk.map((t,i)=>i))}while(tk.length>1&&pl.every((v,i)=>v==i));G8={s,tk,pos:0,used:[],pl};r8()}
+function r8(){const g=G8,d=g.pos==g.tk.length;
+A.innerHTML=hd('رَتِّبِ الجُمْلَةَ')+`<div class="tabs">${L8.map((t,i)=>`<button class="tab${i==SLV?' on':''}" onclick="g8(${i})">${t}</button>`).join('')}</div><div class="big q" style="--h:170"><div class="nm">رَتِّبِ الكَلِمَاتِ لِتُكَوِّنَ جُمْلَةً</div><div class="gs">${g.tk.map((t,i)=>`<span class="gsl${i<g.pos?' fl':''}">${i<g.pos?t:''}</span>`).join('')}</div><div class="opts">${g.pl.map(i=>`<button style="font-size:1.9rem${g.used.includes(i)?';opacity:.2':''}" ${g.used.includes(i)?'disabled':''} onclick="p8(${i},this)">${g.tk[i]}</button>`).join('')}</div><div class="res" id="r8">${d?'أَحْسَنْتَ! 🎉 '+g.s:'اِضْغَطِ الكَلِمَاتِ بِالتَّرْتِيبِ'}</div></div><div class="nav"><button class="tab" onclick="vG()">→ رُجُوع</button><button class="tab" onclick="speak('${g.s}')">🔊 تَلْمِيح</button><button class="tab on" onclick="g8()">التَّالِي ←</button></div>`}
+function p8(i,b){const g=G8,ok=g.tk[i]==g.tk[g.pos];gmLog(ok);if(ok){g.used.push(i);g.pos++;const d=g.pos==g.tk.length;if(d)add(3);r8();speak(d?g.s+'. أَحْسَنْتَ':g.tk[i])}else{b.classList.add('bad');setTimeout(()=>b.classList.remove('bad'),400);speak('حَاوِلْ مَرَّةً أُخْرَى')}}
+
+/* 9) لعبة الذاكرة — الحرف وصورة كلمته (من قسم «الحروف») */
+let G9={};
+function g9(){const L=sh(LT).slice(0,6),cs=sh(L.flatMap((l,i)=>[{id:i,t:l[0],k:'l'},{id:i,t:l[3],k:'p'}]));G9={cs,open:[],done:0,lock:0,L};r9()}
+function r9(){const g=G9;A.innerHTML=hd('لُعْبَةُ الذَّاكِرَةِ')+`<div class="big q" style="--h:300"><div class="nm">طَابِقِ الحَرْفَ مَعَ صُورَةِ كَلِمَتِهِ</div><div class="mem">${g.cs.map((c,i)=>`<button class="mc${c.f?' on':''}${c.d?' dn':''}" onclick="p9(${i})">${c.f||c.d?`<span class="${c.k=='l'?'ml':'mp'}">${c.t}</span>`:'❓'}</button>`).join('')}</div><div class="res" id="r9">${g.done==6?'أَحْسَنْتَ! 🎉':g.open.length?'اِخْتَرْ بِطَاقَةً أُخْرَى':'اِخْتَرْ بِطَاقَةً'}</div></div><div class="nav"><button class="tab" onclick="vG()">→ رُجُوع</button><button class="tab on" onclick="g9()">لُعْبَةٌ جَدِيدَةٌ ↻</button></div>`}
+function p9(i){const g=G9;if(g.lock)return;const c=g.cs[i];if(c.f||c.d)return;c.f=1;g.open.push(i);
+if(g.open.length<2){r9();speak(c.k=='l'?g.L[c.id][1]:g.L[c.id][2]);return}
+const a=g.cs[g.open[0]],b=g.cs[g.open[1]],ok=a.id==b.id&&a.k!=b.k;gmLog(ok);
+if(ok){a.d=b.d=1;a.f=b.f=0;g.open=[];g.done++;add(g.done==6?3:1);r9();speak(g.L[a.id][1]+'. '+g.L[a.id][2]+(g.done==6?'. أَحْسَنْتَ':''))}
+else{g.lock=1;r9();const my=SYT;setTimeout(()=>{if(my!=SYT)return;a.f=b.f=0;g.open=[];g.lock=0;r9()},900)}}
+
+const wh=(t,p)=>t.split(' ').map((w,i)=>`<span class="w" id="${p}${i}" onclick="speak(this.textContent)">${w}</span>`).join(' ');
+const TS=320,FONT="'Scheherazade New','Noto Naskh Arabic',Tahoma,serif";
+let TCOL='#ff6b6b',TR={s:[]};
+function gFit(x,ch){let s=200;x.font=`400 ${s}px ${FONT}`;const m=x.measureText(ch),h=m.actualBoundingBoxAscent+m.actualBoundingBoxDescent,w=m.actualBoundingBoxLeft+m.actualBoundingBoxRight;
+s=(h>0&&w>0)?Math.max(60,Math.min(250,Math.floor(s*Math.min(TS*.74/h,TS*.74/w)))):180;
+x.font=`400 ${s}px ${FONT}`;const n=x.measureText(ch),H=n.actualBoundingBoxAscent+n.actualBoundingBoxDescent,W=n.actualBoundingBoxLeft+n.actualBoundingBoxRight;x.textAlign='left';x.textBaseline='alphabetic';
+return[(TS-W)/2+n.actualBoundingBoxLeft,(TS-H)/2+n.actualBoundingBoxAscent]}
+const alphaOf=x=>{const d=x.getImageData(0,0,TS,TS).data,o=new Uint8Array(TS*TS);for(let p=0;p<o.length;p++)o[p]=d[p*4+3]>90?1:0;return o};
+function gMask(ch,lw){const c=document.createElement('canvas');c.width=c.height=TS;const x=c.getContext('2d',{willReadFrequently:true}),[a,b]=gFit(x,ch);x.fillStyle='#000';x.fillText(ch,a,b);if(lw){x.lineWidth=lw;x.lineJoin='round';x.strokeStyle='#000';x.strokeText(ch,a,b)}return alphaOf(x)}
+function inkMask(S,w){const c=document.createElement('canvas');c.width=c.height=TS;const x=c.getContext('2d',{willReadFrequently:true});x.lineWidth=w;x.lineCap=x.lineJoin='round';x.strokeStyle='#000';
+S.forEach(q=>{x.beginPath();x.moveTo(q[0][0],q[0][1]);if(q.length==1)x.lineTo(q[0][0]+.1,q[0][1]);else q.forEach(p=>x.lineTo(p[0],p[1]));x.stroke()});return alphaOf(x)}
+function trPaint(miss){const g=document.getElementById('tg');if(!g)return;const x=g.getContext('2d');x.clearRect(0,0,TS,TS);const[a,b]=gFit(x,TR.ch);
+x.fillStyle='#d9dcef';x.fillText(TR.ch,a,b);x.setLineDash([7,6]);x.lineWidth=2.5;x.strokeStyle='#8a90c0';x.strokeText(TR.ch,a,b);x.setLineDash([]);
+if(miss){const o=document.createElement('canvas');o.width=o.height=TS;const ox=o.getContext('2d'),im=ox.createImageData(TS,TS);for(let p=0;p<miss.length;p++)if(miss[p]){im.data[p*4]=255;im.data[p*4+1]=159;im.data[p*4+2]=28;im.data[p*4+3]=235}ox.putImageData(im,0,0);x.drawImage(o,0,0)}}
+function trCalc(){if(!TR.s.length)return null;if(!TR.G){TR.G=gMask(TR.ch,0);TR.Z=gMask(TR.ch,36)}
+const I=inkMask(TR.s,14),C=inkMask(TR.s,30),miss=new Uint8Array(TS*TS);let gi=0,gc=0,ii=0,iz=0;
+for(let p=0;p<I.length;p++){if(TR.G[p]){gi++;if(C[p])gc++;else miss[p]=1}if(I[p]){ii++;if(TR.Z[p])iz++}}
+const cov=gi?gc/gi:0,acc=ii?iz/ii:0;return{cov,acc,q:cov*(.25+.75*acc),miss}}
+function trLive(){const r=trCalc(),p=r?Math.min(100,Math.round(r.cov*100)):0,a=document.getElementById('cvi'),b=document.getElementById('cvp');if(a)a.style.width=p+'%';if(b)b.textContent=ar(p)+'%'}
+function trClear(){TR.s=[];const c=document.getElementById('tc');if(c)c.getContext('2d').clearRect(0,0,TS,TS);trPaint();const e=document.getElementById('evr');if(e)e.innerHTML='';trLive()}
+function trBind(){const c=document.getElementById('tc'),x=c.getContext('2d');x.lineWidth=14;x.lineCap=x.lineJoin='round';let cur=null;
+const pt=e=>{const r=c.getBoundingClientRect();return[(e.clientX-r.left)*TS/r.width,(e.clientY-r.top)*TS/r.height]};
+c.onpointerdown=e=>{e.preventDefault();try{c.setPointerCapture(e.pointerId)}catch(_){}cur=[pt(e)];x.strokeStyle=TCOL;x.beginPath();x.moveTo(cur[0][0],cur[0][1]);x.lineTo(cur[0][0]+.1,cur[0][1]);x.stroke();x.beginPath();x.moveTo(cur[0][0],cur[0][1])};
+c.onpointermove=e=>{if(!cur)return;const p=pt(e);cur.push(p);x.lineTo(p[0],p[1]);x.stroke()};
+const end=()=>{if(!cur)return;TR.s.push(cur);cur=null;trLive()};c.onpointerup=end;c.onpointercancel=end}
+function trEval(){const r=trCalc(),e=document.getElementById('evr');if(!e)return;
+if(!r||r.cov<.08){e.innerHTML='<div class="evl"><div class="evm">اُكْتُبِ الحَرْفَ بِإِصْبَعِكَ أَوَّلًا ✍️</div></div>';speak('اُكْتُبِ الحَرْفَ أَوَّلًا');return}
+const sc=Math.round(r.q*100),n=sc>=75?3:sc>=55?2:sc>=35?1:0,k=kid();let ds=0;
+if(k){k.tr=k.tr||{};const o=k.tr[TR.ch]||{b:0,s:0,n:0};o.n++;o.b=Math.max(o.b,sc);ds=Math.max(0,n-o.s);o.s=Math.max(o.s,n);k.tr[TR.ch]=o;dbSave();act('تقييم الكتابة');if(ds)add(ds)}
+const msg=n==3?'مُمْتَاز! كِتَابَتُكَ رَائِعَةٌ 🌟':n==2?'جَيِّدٌ جِدًّا! أَنْتَ تَتَحَسَّنُ 👏':n==1?'مُحَاوَلَةٌ جَيِّدَةٌ، حَاوِلْ مَرَّةً أُخْرَى 💪':'لِنُحَاوِلْ مَرَّةً أُخْرَى 🙂';
+const tip=r.cov<.7?'أَكْمِلِ الأَجْزَاءَ البُرْتُقَالِيَّةَ النَّاقِصَةَ 🟠':r.acc<.75?'حَاوِلْ أَلَّا تَخْرُجَ عَنْ خَطِّ الحَرْفِ':n<3?'اِتْبَعْ خَطَّ الحَرْفِ بِبُطْءٍ':'';
+trPaint(r.cov<.85?r.miss:null);
+e.innerHTML=`<div class="evl"><div class="evs">${'⭐'.repeat(n)}${'☆'.repeat(3-n)}</div><div class="evm">${msg}</div>${ds?`<div class="tag">${ds==1?'+1 ⭐ نَجْمَةٌ جَدِيدَةٌ':ds==2?'+2 ⭐ نَجْمَتَانِ جَدِيدَتَانِ':'+'+ar(ds)+' ⭐ نُجُومٌ جَدِيدَةٌ'}</div>`:''}<div class="row"><span>تَغْطِيَةُ الحَرْفِ</span><div class="bar"><i style="width:${pc(r.cov)}%;background:#2a9d8f"></i></div><b>${ar(pc(r.cov))}%</b></div><div class="row"><span>الدِّقَّةُ</span><div class="bar"><i style="width:${pc(r.acc)}%;background:#4cc9f0"></i></div><b>${ar(pc(r.acc))}%</b></div>${tip?`<div class="nt" style="color:#7a4a00">${tip}</div>`:''}</div>`;
+speak(msg.replace(/[^\u0600-\u06FF\s!،.؟]/g,''))}
+function vT(i=0,d=0){const l=LT[i],h=i*37,[ap,an]=arws('vT',i);
+A.innerHTML=hd('تَتَبُّعُ الحَرْفِ')+pgBar(i)+`<div id="sw" class="pgr" style="--h:${h}"><div class="trtop ${d>0?'enN':d<0?'enP':''}">${ap}<div class="trn" onclick="speak('${l[1]}')"><b>${l[0]}</b><span>${l[1]} 🔊</span></div>${an}</div><div class="tcwrap"><canvas id="tg" width="${TS}" height="${TS}"></canvas><canvas id="tc" width="${TS}" height="${TS}"></canvas></div><div class="cvb"><span id="cvp">0%</span><div class="bar"><i id="cvi" style="width:0;background:#2a9d8f"></i></div></div><div class="pal">${['#ff6b6b','#ffd166','#06d6a0','#4cc9f0','#9b5de5'].map(c=>`<button style="background:${c}" onclick="TCOL='${c}'"></button>`).join('')}</div><div class="nav"><button class="tab" onclick="trClear()">🧽 اِمْسَحْ</button><button class="tab on" onclick="trEval()">✅ قَيِّمْ كِتَابَتِي</button></div><div id="evr"></div><p class="swh">↔️ اِسْحَبْ يَمِينًا أَوْ يَسَارًا لِتَنْتَقِلَ بَيْنَ الحُرُوفِ</p></div>`;
+const ch=l[0];TR={ch,s:[],G:null,Z:null};trBind();trPaint();
+const go=()=>{if(TR.ch!=ch||TR.G)return;TR.G=gMask(ch,0);TR.Z=gMask(ch,36);trPaint()};
+try{Promise.race([document.fonts.load("400 100px 'Scheherazade New'",ch),new Promise(r=>setTimeout(r,1500))]).then(go,go)}catch(e){go()}
+pager('vT',i,e=>!!e.target.closest('.tcwrap'))}
+
+const kb=()=>{const k=kid();return k?`<div class="kidbar"><button class="tab" onclick="who()">🧒 ${k.name} ▾</button><button class="tab" onclick="gate()">👨‍👩‍👧 وَلِيُّ الأَمْرِ</button></div>`:''};
+function who(){A.innerHTML=hd('مَنْ سَيَتَعَلَّمُ اليَوْمَ؟',0)+`<div class="grid">${DB.kids.map(k=>`<button class="tile" style="--h:${(k.id%8)*45}" onclick="selKid(${k.id})"><i>🧒</i>${k.name}</button>`).join('')}<button class="tile" style="--h:200" onclick="addKid()"><i>➕</i>طِفْلٌ جَدِيدٌ</button></div>`}
+function selKid(id){DB.cur=id;dbSave();st=kid().stars;home()}
+function addKid(){A.innerHTML=hd('طِفْلٌ جَدِيدٌ',0)+`<div class="big q" style="--h:200"><div class="pic">🧒</div><div class="nm">اِكْتُبِ اسْمَ الطِّفْلِ</div><input id="kn" class="inp" maxlength="14" placeholder="الاسم"><div class="opts2"><button class="mic" onclick="mk()">اِبْدَأْ ✨</button>${DB.kids.length?'<button class="tab" onclick="who()">رُجُوع</button>':''}</div></div>`}
+function mk(){const n=document.getElementById('kn').value.replace(/[<>&"'`]/g,'').trim();if(!n)return;newKid(n);st=0;home()}
+function gate(){const a=3+Math.floor(Math.random()*6),b=4+Math.floor(Math.random()*5);A.innerHTML=hd('لِوَلِيِّ الأَمْرِ فَقَطْ',0)+`<div class="big q" style="--h:260"><div class="nm">للتأكد من أنك بالغ: كم ناتج ${a} + ${b}؟</div><input id="gv" class="inp" inputmode="numeric" maxlength="3"><div class="opts2"><button class="mic" onclick="gcheck(${a+b})">دخول</button><button class="tab" onclick="home()">🏠</button></div><div class="res" id="gr"></div></div>`}
+function gcheck(v){const x=document.getElementById('gv').value.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d));if(+x==v)dash();else document.getElementById('gr').textContent='الإجابة غير صحيحة'}
+const pc=v=>Math.round(v*100);
+function delKid(id,s){if(!s){document.getElementById('dl').textContent='اضغط مرة أخرى لتأكيد الحذف النهائي';document.getElementById('dl').setAttribute('onclick','delKid('+id+',1)');return}DB.kids=DB.kids.filter(k=>k.id!=id);DB.cur=DB.kids[0]?DB.kids[0].id:null;dbSave();if(DB.cur){st=kid().stars;home()}else addKid()}
+function dash(id){if(id){DB.cur=id;dbSave()}const k=kid();st=k.stars;
+const days=[...Array(7)].map((_,i)=>{const d=new Date(Date.now()-(6-i)*864e5);return [d.toLocaleDateString('ar',{weekday:'short'}),k.days[d.toISOString().slice(0,10)]||0]}),mx=Math.max(1,...days.map(x=>x[1]));
+const gm=k.gm,adv=[];
+if(gm[1]&&gm[0]/gm[1]<.6)adv.push('يحتاج الطفل إلى مزيد من التدريب عبر قسم «الألعاب».');
+if(!gm[1])adv.push('جرّبوا قسم «الألعاب» لقياس تقدّم الطفل.');
+if(gm[1]&&gm[0]/gm[1]>=.8)adv.push('أداء جيد! استمروا بتدريب يومي قصير (10–15 دقيقة).');
+const vis=Object.entries(k.vis).sort((a,b)=>b[1]-a[1]).slice(0,5);
+const tr=k.tr||{},tk=Object.keys(tr),m3=tk.filter(c=>tr[c].s>=3).length,wk2=tk.filter(c=>tr[c].s<2),av=tk.length?Math.round(tk.reduce((a,c)=>a+tr[c].b,0)/tk.length):0;
+if(!tk.length)adv.push('جرّبوا قسم «تتبّع الحرف» لتقييم كتابة الطفل.');else if(wk2.length)adv.push('يحتاج الطفل إلى مزيد من التدريب على كتابة الحروف: '+wk2.slice(0,6).join('، ')+'.');
+A.innerHTML=hd('لَوْحَةُ وَلِيِّ الأَمْرِ',0)+`<div class="kidbar"><button class="tab" onclick="home()">🏠 الرئيسية</button><button class="tab" onclick="cert()">🏆 شَهَادَة</button>${DB.kids.length>1?DB.kids.map(x=>`<button class="tab${x.id==k.id?' on':''}" onclick="dash(${x.id})">${x.name}</button>`).join(''):''}</div>
+${OK?'':'<div class="dcard" style="background:#ffe3e3;color:#222">الحفظ غير متاح في هذا المتصفح (ربما وضع التصفح الخاص)، لذا لن تبقى البيانات بعد إغلاق الصفحة.</div>'}
+<div class="dcard"><div class="sec" style="margin:0 0 8px">ملخص ${k.name}</div><div class="dg"><div class="kp"><b>⭐ ${k.stars}</b>النجوم</div><div class="kp"><b>${gm[1]?pc(gm[0]/gm[1])+'%':'—'}</b>نسبة الإجابات الصحيحة (${gm[1]})</div></div></div>
+<div class="dcard"><div class="sec" style="margin:0 0 8px">النشاط خلال 7 أيام (عدد التفاعلات)</div><div class="wk">${days.map(d=>`<div><i style="height:${Math.round(d[1]/mx*80)}px"></i>${d[0]}<br><small>${d[1]}</small></div>`).join('')}</div></div>
+<div class="dcard"><div class="sec" style="margin:0 0 4px">الأقسام الأكثر استخدامًا</div>${vis.length?vis.map(v=>`<span class="tag">${v[0]} · ${v[1]}</span>`).join(''):'<small>—</small>'}</div>
+<div class="dcard"><div class="sec" style="margin:0 0 8px">الكتابة وتتبّع الحروف</div><div class="dg"><div class="kp"><b>${tk.length}/${LT.length}</b>حروف جُرِّبت</div><div class="kp"><b>${m3}</b>حروف متقنة ⭐⭐⭐</div><div class="kp"><b>${tk.length?av+'%':'—'}</b>متوسط أفضل نتيجة</div></div>${wk2.length?`<div style="margin-top:8px">تحتاج تدريبًا: ${wk2.map(c=>`<span class="tag">${c}</span>`).join('')}</div>`:''}</div>
+<div class="dcard"><div class="sec" style="margin:0 0 4px">توصيات</div>${adv.map(a=>`<p style="margin:6px 0">• ${a}</p>`).join('')}</div>
+<p style="text-align:center;font-size:.9rem;opacity:.75">البيانات محفوظة على هذا الجهاز وهذا المتصفح فقط.</p>
+<div class="nav"><button class="tab" id="dl" onclick="delKid(${k.id},0)">🗑️ حذف بيانات الطفل</button></div>`}
+function cert(){const k=kid();if(!k)return;A.innerHTML=`<div id="certp" class="certpage"><h1>🌟 شَهَادَةُ تَقْدِيرٍ 🌟</h1><p>هَذِهِ الشَّهَادَةُ تُمْنَحُ لِلطِّفْلِ(ة)</p><h2>${k.name}</h2><p>تَقْدِيرًا لِتَمَيُّزِهِ فِي رِحْلَةِ تَعَلُّمِ القِرَاءَةِ</p><p>⭐ ${k.stars==1?'نَجْمَةٌ وَاحِدَةٌ':k.stars==2?'نَجْمَتَانِ':k.stars<11?k.stars+' نُجُومٍ':k.stars+' نَجْمَةً'}</p><p style="opacity:.6;font-size:1rem">أَقْرَأُ وَأَتَعَلَّمُ</p></div><div class="nav no-print" style="margin-top:14px"><button class="tab" onclick="dash()">→ رُجُوع</button><button class="tab on" onclick="window.print()">🖨️ طِبَاعَة</button></div>`}
+
+for(const m of MENU.slice(FREE)){const f=window[m[0]];if(typeof f=='function')window[m[0]]=function(){if(!isUnlocked())return unlockScreen();return f.apply(this,arguments)}}
+function boot(){if(!DB.kids.length){addKid();return}if(!kid())DB.cur=DB.kids[0].id;st=kid().stars;home()}
+boot();
+</script></body></html>
